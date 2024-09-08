@@ -1,0 +1,12 @@
+dash==2.16.1
+dash_bootstrap_components==1.6.0
+dash_cytoscape==1.0.2
+ipython==8.27.0
+matplotlib==3.8.0
+networkx==3.3
+numpy==1.25.2
+pandas==2.2.2
+Pillow==10.4.0
+plotly==5.20.0
+gunicorn
+dash-tools
