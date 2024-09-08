@@ -22,6 +22,8 @@ import time
 
 def icon(letter):
     size = (100, 100)
+    
+    # Define colors for each letter
     colors = {
         "A": "green", "B": "blue", "C": "black", "D": "orange", "E": "purple", "F": "yellow", 
         "G": "pink", "H": "brown", "I": "pink", "J": "orange", "K": "cyan", "L": "magenta", 
@@ -29,21 +31,33 @@ def icon(letter):
         "S": "aqua", "T": "red", "U": "tan", "V": "turquoise", "W": "violet", "X": "gold", 
         "Y": "khaki", "Z": "lavender"
     }
-    color = colors[letter]
-    image = Image.new("RGBA", size, (255, 255, 255, 0))  
-    draw = ImageDraw.Draw(image)
-    corner_radius = 15
     
+    # Get the color for the letter
+    color = colors.get(letter.upper(), "gray")  # Default to gray if letter is not in the map
+    
+    # Create an image with RGBA mode (transparent background)
+    image = Image.new("RGBA", size, (255, 255, 255, 0))
+    draw = ImageDraw.Draw(image)
+    
+    # Draw a rounded rectangle with the letter's color
+    corner_radius = 15
     draw.rounded_rectangle([(1, 1), (size[0]-1, size[1]-1)], radius=corner_radius, fill=color)
-    font = ImageFont.truetype("arial.ttf", 60)
+    
+    # Use the default font
+    font = ImageFont.load_default()
+
+    # Calculate the bounding box using textbbox (supported in Pillow 8.0.0+)
     bbox = draw.textbbox((0, 0), letter, font=font)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
-    ascent, descent = font.getmetrics()
-    text_position = ((size[0] - text_width) // 2, (size[1] - text_height) // 2 - descent // 2)
+    
+    # Calculate the position to center the text
+    text_position = ((size[0] - text_width) // 2, (size[1] - text_height) // 2)
+    
+    # Draw the letter in white color
     draw.text(text_position, letter, fill="white", font=font)
+    
     return image
-
 
 def create_combined_image(letters, i_con):
     combined_w = []
