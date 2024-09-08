@@ -110,8 +110,8 @@ def create_combined_image(letters, i_con):
 
 def create_nodes_and_edges(Link):
 
-    ed = pd.read_excel(Link)
-    df = pd.DataFrame(ed)
+ 
+    df = pd.DataFrame(Link)
     df["Level_R"] = df["Level"] - 1
     df["Level_R2"] = df["Level2"] * 0
 
@@ -151,9 +151,8 @@ def create_nodes_and_edges(Link):
 
 
 def cut_nodes_and_edges(Link, cut):
+    df = pd.DataFrame(Link)
 
-    ed = pd.read_excel(Link)
-    df = pd.DataFrame(ed)
     df=df.iloc[:cut]
     df["Level_R"] = df["Level"] - 1
     df["Level_R2"] = df["Level2"] * 0
@@ -243,6 +242,27 @@ def process_nodes_and_edges(Link, node_id):
     ]
     return new_nodes, matching_edges
 
+data = {
+    "Roote": [
+        "T/I/R/A/J", "T/I/R/A/J", "A/I/J", "A/I/J", "T/I/R/A/J", "T/I/R/A/J",
+        "T/I/R/A/J", "T/I/R/A/J", "T/I/A/R", "T/I/A/R", "A/I", "A/I", "A/I/J",
+        "A/I/J", "A/I/J", "A/I/J", "I/A", "I/A", "T/I/A/R", "T/I/A/R", "T/I/R",
+        "T/I/R", "T/I/R/A/J", "T/I/R/A/J", "T/R", "T/R"
+    ],
+    "Connection": [
+        "A/I/J", "T/I/R/A/J", "A/I", "A/I/J", "T/I/R/A/J", "T/I/A/R", "T/I/R",
+        "T/I/R/A/J", "T/I/A/R", "T/R", "I", "I/A", "I", "A/I/J", "I", "A/I/J",
+        "A", "I/A", "T/I/A/R", "T/R/A", "T/R", "T/I/R", "T/I/R/A/J", "I/R/A/J",
+        "R", "T/R"
+    ],
+    "Level": [
+        1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4
+    ],
+    "Level2": [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2
+    ]
+}
+
 
 
 
@@ -257,7 +277,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
-Link = "C:/Users/jrech/OneDrive/Desktop/Privat/Website/20240819_input.xlsx"
+Link = data
 
 nodes, edges = create_nodes_and_edges(Link)
 
