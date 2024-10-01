@@ -286,7 +286,7 @@ pd_data = pd.read_csv(csv_data)
 
 positon1={'width': '100%', 'height': '80vh','left':-700,"top":120, 'position': 'absolute','zIndex': 0}
 positon2={'width': '100%', 'height': '80vh','left':-20, 'top':-100, 'position': 'absolute','zIndex': 0}
-positon3={'overflow': 'hidden','width': '80%', 'right': 0, 'height': '80vh', "top":"100px", 'position': 'absolute', 'zIndex': 2}
+positon3={'overflow': 'hidden','width': '90%', 'right': 0, 'height': '80vh', "top":"100px", 'position': 'absolute', 'zIndex': 2}
 positon4 = {
     'overflow': 'hidden',   # Ensure any overflow is hidden (optional based on your needs)
     'width': '50%',        # Set the width to 100% of the parent container
@@ -435,8 +435,8 @@ def create_combined_image(letters, i_con):
 
 
 def create_nodes_and_edges_e2(node_labels, background_images):
-    radius_x = 600
-    radius_y = 400
+    radius_x = 800
+    radius_y = 500
     center_x = -200
     center_y = -200
 
@@ -490,13 +490,14 @@ def create_nodes_and_edges_e2(node_labels, background_images):
                 "background-fit": "contain",
                 'background-image': icon_base64[i],  
                 "background-position": "50% 50%",
-                "background-color": "#ffebee",  
-                "border-color": "#f44336", 
-                "border-width": 3,
+                "background-color": "#ffffff",
+                "border-color": "#000000",
+                
+                "border-width": 1,
                 "border-opacity": 1,
-                "border-style": "solid",
-                "width": 50,  
-                "height": 50,
+                "border-style": "dashed",
+                "width": 60,  
+                "height": 60,
                 "font-size": "12px",
                 "text-valign": "bottom",
                 "text-halign": "center",
@@ -528,13 +529,17 @@ def create_nodes_and_edges_updates(number, node_labels, icon_base64):
     number = int(number) // 10 
 
 
-    colors = ["#1F77B4",  # Muted Blue
-          "#FF7F0E",  # Muted Orange
-          "#2CA02C",  # Muted Green
-          "#D62728",  # Muted Red
-          "#9467BD",  # Muted Purple
-          "#8C564B",  # Muted Brown
-          "#E377C2"]  # Muted Pink
+    colors = [
+        "#D62728",  # Heart failure? (Red)
+        "#FF7F0E",  # SCVD, VTE, HZ? (Orange)
+        "#2CA02C",  # Malignancy? (Green)
+        "#9467BD",  # Diverticulitis? (Purple)
+        "#1F77B4",  # Autoantibodies, DMD? (Blue)
+        "#E377C2",  # HG, vaccination? (Pink)
+        "#8C564B",  # RA-ILD? (Brown)
+        "#1F77B4"   # End of story (Blue)
+]
+
 
 
     radius_x = 400
@@ -583,21 +588,20 @@ def create_nodes_and_edges_updates(number, node_labels, icon_base64):
             'style': {
                 'background-fit': 'contain',
                 'background-image': icon_base64[i],
-                'width': 100 if i == number else 50,  
-                'height': 100 if i == number else 50,
+                'width': 90 if i == number else 60,  
+                'height': 90 if i == number else 60,
                 'background-position': '50% 50%',
-                'background-color': colors[i] if i == number else '#e0e0e0',
-                'border': f'2px solid {colors[i]}' if i == number else '2px solid #e0e0e0',
-                'border-width': 3,
-                'border-opacity': 1,
-                'background-opacity': 0.5,  
-                'border-style': 'solid',
+                'background-color': colors[i] if i == number else '#ffffff',
+                'border': f'2px solid {colors[i]}' if i == number else '0.5px dashed #000000',
+                "border-width": 0.5,
+                "border-opacity": 1,
+                'background-opacity': 0.4,
                 'font-size': '20px' if i == number else '12px',
                 'text-valign': 'bottom',
                 'text-halign': 'center',
                 'text-margin-y': 8,
                 'bootstrap-tooltip': node_labels[i],
-                'grabify': 'false'
+                'grabify': False
 
             }
         }
@@ -916,7 +920,7 @@ server = app.server
 
 
 
-icon_list=["covid:covid19-virus-3", "covid:virus-lab-research-medicine-pill", "game-icons:abstract-036", "game-icons:abstract-015", "fontisto:oracle", "fontisto:helicopter-ambulance", "iwwa:connection-o"]
+icon_list=["healthicons:heart-organ-outline", "healthicons:virus-alt-outline", "wi:cloud", "healthicons:colon-outline", "healthicons:y-outline", "healthicons:syringe-outline", "healthicons:blood-vessel-outline"]
 background_images=[]
 
 for i in icon_list:
@@ -934,18 +938,18 @@ elements2, stylesheet_graphic, icon_base64=create_nodes_and_edges_e2(node_labels
 def logic(n):
     if n == 0:
         return "TNFi are contraindicated in moderate to severe heart failure (NYHA III/IV), and rituximab in severe heart failure (NYHA IV)."
-    if n == 1:
-        return "TNFi are contraindicated in moderate to severe heart failure (NYHA III/IV), and rituximab in severe heart failure (NYHA IV)."
-    elif n == 2:
+    elif n == 1:
         return "JAKi should be prescribed only after careful consideration of benefit and risk in patients with current or history of ASCVD, VTE, and HZ."
-    elif n == 3:
+    elif n == 2:
         return "Abatacept and JAKi might increase the risk of malignancies and might not be favored in patients with current or recent malignancies."
-    elif n == 4:
+    elif n == 3:
         return "IL6i increase the risk for gastrointestinal perforations, especially in patients with current or history of diverticulitis; this potential risk has recently also been observed for JAKi."
-    elif n == 5:
+    elif n == 4:
         return "Hypogammaglobulinemia may disfavor rituximab, and response to any planned vaccination may be limited after rituximab has been started."
-    elif n == 6:
+    elif n == 5:
         return "Auto-antibody formation (like anti-nuclear antibodies, ANA, or double-stranded DNA antibodies, dsDNA) and demyelinating diseases (DMD) like Multiple sclerosis or Guillain-Barré syndrome have been observed in patients under TNFi therapy."
+    elif n == 6:
+        return "Conversely, specific extraarticular efficacy may positively select DMARDs: in RA-ILD, rituximab or abatacept may be favored over TNFi, IL6i and JAKi"
     elif n == 7:
         return "End of story"
 
