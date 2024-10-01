@@ -289,38 +289,38 @@ pd_data = pd.read_csv(csv_data)
 def icon(letter):
     size = (200, 200)
     
-   
+    
+    # Define colors for each letter
     colors = {
-
         "A": "green", "B": "blue", "C": "black", "D": "orange", "E": "purple", "F": "yellow", 
         "G": "pink", "H": "brown", "I": "pink", "J": "orange", "K": "cyan", "L": "magenta", 
         "M": "lime", "N": "teal", "O": "indigo", "P": "maroon", "Q": "navy", "R": "turquoise", 
         "S": "aqua", "T": "red", "U": "tan", "V": "turquoise", "W": "violet", "X": "gold", 
         "Y": "khaki", "Z": "lavender"
     }
-
-    color = colors.get(letter.upper(), "gray") 
     
+    # Get the color for the letter
+    color = colors.get(letter.upper(), "gray")  # Default to gray if letter is not in the map
     
+    # Create an image with RGBA mode (transparent background)
     image = Image.new("RGBA", size, (255, 255, 255, 0))
     draw = ImageDraw.Draw(image)
-    
-    corner_radius = 25
-    draw.rounded_rectangle([(1, 1), (size[0]-1, size[1]-1)], radius=corner_radius, fill=color)
 
-    font = ImageFont.truetype("arial.ttf", 140)
-   
+    # Draw a rounded rectangle with the letter's color
+    corner_radius = 15
+    draw.rounded_rectangle([(1, 1), (size[0]-1, size[1]-1)], radius=corner_radius, fill=color)
+    
+    # Use the default font
+    font = ImageFont.load_default()
+    # Calculate the bounding box using textbbox (supported in Pillow 8.0.0+)
     bbox = draw.textbbox((0, 0), letter, font=font)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
-
-    tw= text_width
-    th= text_height*1.5
     
- 
-    text_position = ((size[0] - tw) // 2, (size[1] - th) // 2)
+    # Calculate the position to center the text
+    text_position = ((size[0] - text_width) // 2, (size[1] - text_height) // 2)
     
-  
+    # Draw the letter in white color
     draw.text(text_position, letter, fill="white", font=font)
     
     return image
