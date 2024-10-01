@@ -539,30 +539,32 @@ def create_nodes_and_edges_updates(number, node_labels, icon_base64):
         "#1F77B4"   # End of story (Blue)
     ]
 
-    radius_x = 400
-    radius_y = 200
-    center_x = 0
-    center_y = 0
 
     total_nodes = 7
-    angle_step = 2 * math.pi / total_nodes  # Full circle divided by number of nodes
+ 
+
+    radius_x = 400
+    radius_y = 200
+    center_x = -500
+    center_y = 800
+
 
     e2 = [
         {
             'data': {'id': f'node{i}', 'label': node_labels[i]},
             'position': {
-                'x': center_x + radius_x * math.cos(angle_step * i),  # Use angle_step for equal spacing
-                'y': center_y + radius_y * math.sin(angle_step * i)
+                'x': center_x - radius_x * math.cos(math.pi * i / 6),
+                'y': center_y - radius_y * math.sin(math.pi * i / 6)
             }
         }
-        for i in range(total_nodes)
+        for i in range(7)
     ]
 
     edges2 = [
         {'data': {'source': f'node{i}', 'target': f'node{i+1}'}, "classes": "invisibleEdge"}
-        for i in range(total_nodes - 1)
+        for i in range(6)
     ]
-    edges2.append({'data': {'source': f'node{total_nodes - 1}', 'target': 'node0'}, "classes": "invisibleEdge"})  # Close the loop
+    edges2.append({'data': {'source': 'node6', 'target': 'node0'}, "classes": "invisibleEdge"})
     e2.extend(edges2)
 
     s2 = [
@@ -891,8 +893,8 @@ def rebuild_and_highlight_graph(csd, Test,  elements2, nodes_classes, background
     s2 = stylesheet_graphic
     e2 = elements2
 
-    outy = "End of story"
-    outy2= "This is what youb selected"
+    outy = "End of the matchmaking"
+    outy2= "You've reached the end of matchmaking. Please press the 'End' button to view your path or 'Reset' to start over."
     stylesheet= stylesheet_basic
     layout=standart_layout
     postion=positon1 
@@ -926,11 +928,15 @@ for i in icon_list:
     background_images.append(icony)
 
 
-node_labels = ["Heart failure?", "SCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "End of story"]
+node_labels = ["Heart failure?", "SCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "End of the matchmaking"]
 
 
 nodes, edges, df, stylesheet1 = create_nodes_and_edges(csd)
 elements2, stylesheet_graphic, icon_base64=create_nodes_and_edges_e2(node_labels, background_images)
+
+
+t1="Welcome!"
+t2= "Please press start to begin matchmaking"
 
 # %%
 def logic(n):
@@ -947,9 +953,9 @@ def logic(n):
     elif n == 5:
         return "Auto-antibody formation (like anti-nuclear antibodies, ANA, or double-stranded DNA antibodies, dsDNA) and demyelinating diseases (DMD) like Multiple sclerosis or Guillain-Barré syndrome have been observed in patients under TNFi therapy."
     elif n == 6:
-        return "Conversely, specific extraarticular efficacy may positively select DMARDs: in RA-ILD, rituximab or abatacept may be favored over TNFi, IL6i and JAKi"
+        return "Conversely, specific extraarticular efficacy may positively select DMARDs: in RA-ILD, rituximab or abatacept may be favored over TNFi, IL6i and JAKi."
     elif n == 7:
-        return "End of story"
+        return  "You've reached the end of matchmaking. Please press the 'End' button to view your path or 'Reset' to start over."
 
 
     
@@ -1144,7 +1150,6 @@ controls = dbc.Card(
 )
 
 
-
 reset=html.Div([dbc.Button("Reset", id="Reset", color="primary",  style={'margin': 10, 'width': '150px'})])
 start=html.Div([dbc.Button("Start", id="Start", color="primary", style={'margin': 10, 'width': '150px'})])
 
@@ -1152,7 +1157,7 @@ text_output = html.Div([html.P("Output: ", id="Outy")])
 text_output2 = html.Div([html.H1("Output: ", id="Outy2")])
 
 header = html.H1(
-    "Welcome to the Network Graph", 
+    "The RA decision tree", 
     style={
         'textAlign': 'center', 
         'color': 'black', 
@@ -1311,10 +1316,9 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
     s2 = []
     e2 = []
     stylesheet3 = []
-    outy = "Wellcome to matchmaking"
-    outy2 = ""
-    # pr = cProfile.Profile()
-    # pr.enable()  # Start profiling
+    outy = t2
+    outy2 = t1
+
     positon=positon1
     positon_g1=positon3
 
