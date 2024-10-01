@@ -873,7 +873,7 @@ nodes = []
 
 
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP , dbc.icons.FONT_AWESOME])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME])
 
 
 
@@ -895,7 +895,6 @@ elements2, stylesheet_graphic, icon_base64=create_nodes_and_edges_e2(node_labels
 def logic(n):
     if n == 0:
         return "TNFi are contraindicated in moderate to severe heart failure (NYHA III/IV), and rituximab in severe heart failure (NYHA IV)."
-
     if n == 1:
         return "TNFi are contraindicated in moderate to severe heart failure (NYHA III/IV), and rituximab in severe heart failure (NYHA IV)."
     elif n == 2:
