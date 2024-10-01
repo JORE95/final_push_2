@@ -956,9 +956,6 @@ def logic2(n):
     return n
 
 
-
-
-
 # %%
 
 
@@ -977,121 +974,154 @@ game_layout={
               
         }
 
-
-w_=80
-h_=80
+w_=50
+h_=50
 
 qq=h_-20
-s=60
-
-
-# %%
+s=50
 controls = dbc.Card(
     [
-        # Circular buttons with icons only and stronger border colors
+        # Circular buttons with icons and labels underneath
         html.Div(
             [
-                dbc.Button(
-                    [  # Icon only, no text
-                        html.I(className="fas fa-play-circle", style={'font-size': qq})  # Font Awesome Play Icon
+                html.Div(
+                    [
+                        dbc.Button(
+                            [  # Icon only, no text
+                                html.I(className="fas fa-play-circle", style={'font-size': qq})  # Font Awesome Play Icon
+                            ],
+                            id="Start", color="primary", className="btn-lg",
+                            style={
+                                'width': w_,  # Circular button
+                                'height': h_,
+                                'border-radius': '50%',  # Perfect circle
+                                'background-color': '#5A9BD4',  # Soft blue background
+                                'color': 'white',
+                                'border': '3px solid #3A6FA4',  # Stronger border in darker tone
+                                'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                'transition': 'background-color 0.2s ease-in-out',
+                                'display': 'flex',
+                                'align-items': 'center',  # Center icon vertically
+                                'justify-content': 'center',  # Center icon horizontally
+                                'margin-bottom': '10px',  # Spacing between button and label
+                            }
+                        ),
+                        html.P("Start", style={'text-align': 'center'})  # Label below the button
                     ],
-                    id="Start", color="primary", className="btn-lg",
-                    style={
-                        'width': w_,  # Circular button
-                        'height': h_,  
-                        'border-radius': '50%',  # Perfect circle
-                        'background-color': '#5A9BD4',  # Soft blue background
-                        'color': 'white',  
-                        'border': '3px solid #3A6FA4',  # Stronger border in darker tone
-                        'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
-                        'transition': 'background-color 0.2s ease-in-out',
-                        'display': 'flex',
-                        'align-items': 'center',  # Center icon vertically
-                        'justify-content': 'center',  # Center icon horizontally
-                        'margin-bottom': s,  # Larger spacing between buttons
-                    }
+                    style={'display': 'inline-block', 'text-align': 'center', 'margin': '10px'}
                 ),
-                dbc.Button(
-                    [  # Icon only, no text
-                        html.I(className="fas fa-sync", style={'font-size': qq})  # Font Awesome Sync Icon
+                html.Div(
+                    [
+                        dbc.Button(
+                            [  # Icon only, no text
+                                html.I(className="fas fa-sync", style={'font-size': qq})  # Font Awesome Sync Icon
+                            ],
+                            id="Reset", color="secondary", className="btn-lg",
+                            style={
+                                'width': w_,  # Circular button
+                                'height': h_,
+                                'border-radius': '50%',  # Perfect circle
+                                'background-color': '#E57373',  # Warm coral background
+                                'color': 'white',
+                                'border': '3px solid #B64B4B',  # Stronger border in darker tone
+                                'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                'transition': 'background-color 0.2s ease-in-out',
+                                'display': 'flex',
+                                'align-items': 'center',
+                                'justify-content': 'center',
+                                'margin-bottom': '10px',
+                            }
+                        ),
+                        html.P("Reset", style={'text-align': 'center'})
                     ],
-                    id="Reset", color="secondary", className="btn-lg",
-                    style={
-                        'width': w_,  # Circular button
-                        'height': h_,  
-                        'border-radius': '50%',  # Perfect circle
-                        'background-color': '#E57373',  # Warm coral background
-                        'color': 'white',  
-                        'border': '3px solid #B64B4B',  # Stronger border in darker tone
-                        'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
-                        'transition': 'background-color 0.2s ease-in-out',
-                        'display': 'flex',
-                        'align-items': 'center',  
-                        'justify-content': 'center',  
-                        'margin-bottom': s,  
-                    }
+                    style={'display': 'inline-block', 'text-align': 'center', 'margin': '10px'}
                 ),
-                dbc.Button(
-                    [  # Icon only, no text
-                        html.I(className="fas fa-check-circle", style={'font-size': qq})  # Font Awesome Check Circle Icon
+                html.Div(
+                    [
+                        dbc.Button(
+                            [  # Icon only, no text
+                                html.I(className="fas fa-check-circle", style={'font-size': qq})  # Font Awesome Check Circle Icon
+                            ],
+                            id="Yes", color="success", className="btn-lg",
+                            style={
+                                'width': w_,  # Circular button
+                                'height': h_,
+                                'border-radius': '50%',  # Perfect circle
+                                'background-color': '#66BB6A',  # Soft green background
+                                'color': 'white',
+                                'border': '3px solid #4A8B4A',
+                                'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                'display': 'flex',
+                                'align-items': 'center',
+                                'justify-content': 'center',
+                                'margin-bottom': '10px',
+                                'transition': 'background-color 0.2s ease-in-out',
+                            }
+                        ),
+                        html.P("Yes", style={'text-align': 'center'})
                     ],
-                    id="Yes", color="success", className="btn-lg",
-                    style={
-                        'width': w_,  # Circular button
-                        'height': h_,    
-                        'border-radius': '50%',  # Perfect circle
-                        'background-color': '#66BB6A',  # Soft green background
-                        'color': 'white',
-                        'border': '3px solid #4A8B4A',  
-                        'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',  
-                        'display': 'flex',
-                        'align-items': 'center',  
-                        'justify-content': 'center',  
-                        'margin-bottom': s,  
-                        'transition': 'background-color 0.2s ease-in-out',
-                    }
+                    style={'display': 'inline-block', 'text-align': 'center', 'margin': '10px'}
                 ),
-                dbc.Button(
-                    [  # Icon only, no text
-                        html.I(className="fas fa-times-circle", style={'font-size': qq})  # Font Awesome Times Circle Icon
+                html.Div(
+                    [
+                        dbc.Button(
+                            [  # Icon only, no text
+                                html.I(className="fas fa-times-circle", style={'font-size': qq})  # Font Awesome Times Circle Icon
+                            ],
+                            id="No", color="danger", className="btn-lg",
+                            style={
+                                'width': w_,  # Circular button
+                                'height': h_,
+                                'border-radius': '50%',  # Perfect circle
+                                'background-color': '#EF5350',  # Soft red background
+                                'color': 'white',
+                                'border': '3px solid #C62828',  # Stronger border in darker tone
+                                'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                'display': 'flex',
+                                'align-items': 'center',
+                                'justify-content': 'center',
+                                'margin-bottom': '10px',
+                                'transition': 'background-color 0.2s ease-in-out',
+                            }
+                        ),
+                        html.P("No", style={'text-align': 'center'})
                     ],
-                    id="No", color="danger", className="btn-lg",
-                    style={
-                        'width': w_,  # Circular button
-                        'height': h_,  
-                        'border-radius': '50%',  # Perfect circle
-                        'background-color': '#EF5350',  # Soft red background
-                        'color': 'white',
-                        'border': '3px solid #C62828',  # Stronger border in darker tone
-                        'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
-                        'display': 'flex',
-                        'align-items': 'center',  
-                        'justify-content': 'center',  
-                        'margin-bottom': s,  
-                        'transition': 'background-color 0.2s ease-in-out',
-                    }
+                    style={'display': 'inline-block', 'text-align': 'center', 'margin': '10px'}
                 ),
-                dbc.Button(
-                    [  # Icon only, no text
-                        html.I(className="fas fa-stop-circle", style={'font-size':qq })  # Font Awesome Stop Circle Icon
+                html.Div(
+                    [
+                        dbc.Button(
+                            [  # Icon only, no text
+                                html.I(className="fas fa-stop-circle", style={'font-size': qq})  # Font Awesome Stop Circle Icon
+                            ],
+                            id="End", color="primary",
+                            style={
+                                'width': w_,  # Circular button
+                                'height': h_,
+                                'border-radius': '50%',  # Perfect circle
+                                'background-color': '#7986CB',  # Muted slate blue background
+                                'color': 'white',
+                                'border': '3px solid #4D5BAA',  # Stronger border in darker tone
+                                'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                'display': 'flex',
+                                'align-items': 'center',
+                                'justify-content': 'center',
+                                'transition': 'background-color 0.2s ease-in-out',
+                                'margin-bottom': '10px',
+                            }
+                        ),
+                        html.P("End", style={'text-align': 'center'})
                     ],
-                    id="End", color="primary", 
-                    style={
-                        'width': w_,  # Circular button
-                        'height': h_,  
-                        'border-radius': '50%',  # Perfect circle
-                        'background-color': '#7986CB',  # Muted slate blue background
-                        'color': 'white', 
-                        'border': '3px solid #4D5BAA',  # Stronger border in darker tone
-                        'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
-                        'display': 'flex',
-                        'align-items': 'center',  
-                        'justify-content': 'center',  
-                        'transition': 'background-color 0.2s ease-in-out',
-                    }
+                    style={'display': 'inline-block', 'text-align': 'center', 'margin': '10px'}
                 ),
             ],
-            style={'textAlign': 'center'}
+            style={
+                'text-align': 'center',
+                'display': 'flex',
+                'flex-direction': 'column',
+                'align-items': 'center',  # Center the entire set of buttons
+                'justify-content': 'center',  # Center vertically
+            }
         ),
     ],
     style={
@@ -1100,35 +1130,17 @@ controls = dbc.Card(
         'background-color': 'rgba(255, 255, 255, 0.2)',  # Semi-transparent white background
         'backdrop-filter': 'blur(10px)',  # Frosted glass effect
         'box-shadow': '0 6px 12px rgba(0, 0, 0, 0.3)',  # Stronger shadow for glassy effect
-        'width': '80px',  # Adjust width to fit the circular buttons
+        'width': '80px',  # Adjust width to fit the circular buttons with labels
         'position': 'absolute',
         'top': '200px',
         'right': '20px',
         'zIndex': 3,
-        'textAlign': 'center',
+        'text-align': 'center',
         'color': '#000',  # Text color for contrast
         'font-family': '"San Francisco", "Segoe UI", sans-serif',  # Apple-like font family
     }
 )
 
-# %%
-
-
-header = html.H1(
-    "Welcome to the Network Graph", 
-    style={
-        'textAlign': 'center', 
-        'color': 'black', 
-        'font-size': '50px',  # Increase the font size
-        'font-weight': '300',  # Lighter font
-        'position': 'absolute',  
-        'top': '10px',  # Add some space from the top
-        'left': '50%', 
-        'transform': 'translateX(-50%)',  # Center the text horizontally
-        'zIndex': 10 
-    }
-)
-
 
 
 reset=html.Div([dbc.Button("Reset", id="Reset", color="primary",  style={'margin': 10, 'width': '150px'})])
@@ -1142,23 +1154,18 @@ header = html.H1(
     style={
         'textAlign': 'center', 
         'color': 'black', 
-        'font-size': '50px',  # Increase the font size
-        'font-weight': '300',  # Lighter font
+        'font-size': '50px', 
+        'font-weight': '300',  
         'position': 'absolute',  
-        'top': '10px',  # Add some space from the top
+        'top': '10px',  
         'left': '50%', 
-        'transform': 'translateX(-50%)',  # Center the text horizontally
+        'transform': 'translateX(-50%)', 
         'zIndex': 10 
     }
 )
 
 
 
-reset=html.Div([dbc.Button("Reset", id="Reset", color="primary",  style={'margin': 10, 'width': '150px'})])
-start=html.Div([dbc.Button("Start", id="Start", color="primary", style={'margin': 10, 'width': '150px'})])
-
-text_output = html.Div([html.P("Output: ", id="Outy")])
-text_output2 = html.Div([html.H1("Output: ", id="Outy2")])
 
 
 
@@ -1193,23 +1200,25 @@ zoom_level=0.5
 
 
 
-
 jumbotron = html.Div(
     id='jumbotron',  
     children=dbc.Container(
         [
-      
             html.H1(text_output2, className="display-3"),
             html.Hr(className="my-2"),
             html.P(
                 text_output,
                 className="lead",
             ),
-
-            html.P(
-                dbc.Button("Learn more", color="primary"), className="lead"
+            # Buttons in a single row
+            html.Div(
+                [
+                    dbc.Button("Learn more", color="primary", className="mx-2 d-inline-block"),
+                    dbc.Button("Yes", id="Yes1", color="success", className="mx-2 d-inline-block"),
+                    dbc.Button("No", id="No1", color="danger", className="mx-2 d-inline-block"),
+                ],
+                style={'text-align': 'left'}
             ),
-            
         ],
         fluid=True,
         className="py-3"
@@ -1230,6 +1239,8 @@ jumbotron = html.Div(
     },
     className="p-3 bg-body-secondary rounded-3"
 )
+
+
 
 
 
@@ -1285,13 +1296,15 @@ app.layout = dbc.Container([
         Input('cytoscape', 'tapNodeData'),
         Input('Yes', 'n_clicks'),
         Input('No', 'n_clicks'),
-        Input('End', 'n_clicks')
+        Input('End', 'n_clicks'),
+        Input('Yes1', 'n_clicks'),
+        Input('No1', 'n_clicks')
     ],
     [State('nodes_classes', 'data'),
      State('Test', 'data'),
      State('save', 'data')])
 
-def update_branch(reset_clicks, start_clicks, nd, yes, no, end, nodes_classes,Test, save):
+def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_classes,Test, save):
     elements = []
     s2 = []
     e2 = []
@@ -1351,7 +1364,7 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end, nodes_classes,Te
 
        
 ###
-    elif button_clicked == 'Yes':
+    elif button_clicked == 'Yes' or button_clicked == 'Yes1':
 
  
         if not nodes_classes:
@@ -1402,7 +1415,7 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end, nodes_classes,Te
    
  ####   
 
-    elif button_clicked == 'No':
+    elif button_clicked == 'No' or button_clicked == 'No1':
    
       
         if not nodes_classes:
