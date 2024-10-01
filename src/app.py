@@ -893,8 +893,8 @@ def rebuild_and_highlight_graph(csd, Test,  elements2, nodes_classes, background
     s2 = stylesheet_graphic
     e2 = elements2
 
-    outy = "End of the matchmaking"
-    outy2= "You've reached the end of matchmaking. Please press the 'End' button to view your path or 'Reset' to start over."
+    outy2 = "End of the matchmaking"
+    outy= "You've reached the end of matchmaking. Please press the 'End' button to view your path or 'Reset' to start over."
     stylesheet= stylesheet_basic
     layout=standart_layout
     postion=positon1 
