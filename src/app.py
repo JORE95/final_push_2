@@ -489,7 +489,6 @@ def create_nodes_and_edges_e2(node_labels, background_images):
             'style': {
                 "background-fit": "contain",
                 'background-image': icon_base64[i],  
-                "background-position": "50% 50%",
                 "background-color": "#ffffff",
                 "border-color": "#000000",
                 
@@ -501,8 +500,8 @@ def create_nodes_and_edges_e2(node_labels, background_images):
                 "font-size": "12px",
                 "text-valign": "bottom",
                 "text-halign": "center",
-                "text-margin-y": 8,
-                'grabify': 'false'
+                "text-margin-y": 8
+
             }
         }
         for i in range(7)
@@ -524,46 +523,46 @@ def create_nodes_and_edges_e2(node_labels, background_images):
 
 
 
+import math
+
 def create_nodes_and_edges_updates(number, node_labels, icon_base64):
-
     number = int(number) // 10 
-
 
     colors = [
         "#D62728",  # Heart failure? (Red)
-        "#FF7F0E",  # SCVD, VTE, HZ? (Orange)
-        "#2CA02C",  # Malignancy? (Green)
+        "#2CA02C",  # SCVD, VTE, HZ? (Green)
+        "#FFD700",  # Malignancy? (Yellow)
         "#9467BD",  # Diverticulitis? (Purple)
         "#1F77B4",  # Autoantibodies, DMD? (Blue)
-        "#E377C2",  # HG, vaccination? (Pink)
+        "#808080",  # HG, vaccination? (Gray)
         "#8C564B",  # RA-ILD? (Brown)
         "#1F77B4"   # End of story (Blue)
-]
-
-
+    ]
 
     radius_x = 400
     radius_y = 200
-    center_x = -500
-    center_y = 800
+    center_x = 0
+    center_y = 0
 
+    total_nodes = 7
+    angle_step = 2 * math.pi / total_nodes  # Full circle divided by number of nodes
 
     e2 = [
         {
             'data': {'id': f'node{i}', 'label': node_labels[i]},
             'position': {
-                'x': center_x - radius_x * math.cos(math.pi * i / 6),
-                'y': center_y - radius_y * math.sin(math.pi * i / 6)
+                'x': center_x + radius_x * math.cos(angle_step * i),  # Use angle_step for equal spacing
+                'y': center_y + radius_y * math.sin(angle_step * i)
             }
         }
-        for i in range(7)
+        for i in range(total_nodes)
     ]
 
     edges2 = [
         {'data': {'source': f'node{i}', 'target': f'node{i+1}'}, "classes": "invisibleEdge"}
-        for i in range(6)
+        for i in range(total_nodes - 1)
     ]
-    edges2.append({'data': {'source': 'node6', 'target': 'node0'}, "classes": "invisibleEdge"})
+    edges2.append({'data': {'source': f'node{total_nodes - 1}', 'target': 'node0'}, "classes": "invisibleEdge"})  # Close the loop
     e2.extend(edges2)
 
     s2 = [
@@ -581,7 +580,6 @@ def create_nodes_and_edges_updates(number, node_labels, icon_base64):
         }
     ]
 
-
     s2.extend([
         {
             'selector': f'#node{i}',
@@ -590,22 +588,21 @@ def create_nodes_and_edges_updates(number, node_labels, icon_base64):
                 'background-image': icon_base64[i],
                 'width': 90 if i == number else 60,  
                 'height': 90 if i == number else 60,
-                'background-position': '50% 50%',
                 'background-color': colors[i] if i == number else '#ffffff',
                 'border': f'2px solid {colors[i]}' if i == number else '0.5px dashed #000000',
-                "border-width": 0.5,
+                'border-style': 'solid' if i == number else 'dashed',  # Dashed border for unselected nodes
+                'border-width': 2 if i == number else 0.5,
                 "border-opacity": 1,
                 'background-opacity': 0.4,
                 'font-size': '20px' if i == number else '12px',
                 'text-valign': 'bottom',
                 'text-halign': 'center',
                 'text-margin-y': 8,
-                'bootstrap-tooltip': node_labels[i],
-                'grabify': False
+                'bootstrap-tooltip': node_labels[i]
 
             }
         }
-        for i in range(7)
+        for i in range(total_nodes)
     ])
 
     s2.append({
@@ -617,6 +614,7 @@ def create_nodes_and_edges_updates(number, node_labels, icon_base64):
     })
 
     return e2, s2
+
 
 # %% [markdown]
 # #Nodes and Edges
