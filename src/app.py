@@ -12,10 +12,13 @@ import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFont
 from IPython.display import display, Image as IPImage
 from io import StringIO
+from io import BytesIO
 
 import math
 import base64
 import io
+import requests
+
 
 
 
@@ -286,11 +289,29 @@ pd_data = pd.read_csv(csv_data)
 
 
 # %%
+from PIL import Image, ImageDraw, ImageFont
+import requests
+from io import BytesIO
+
+# Global variable to cache the font
+_cached_font = None
+
+def get_cached_font(size):
+    global _cached_font
+    
+    if _cached_font is None:
+        # Download and cache the font once
+        font_url = "https://github.com/google/fonts/raw/main/ofl/carlito/Carlito-Regular.ttf"
+        response = requests.get(font_url)
+        font_data = BytesIO(response.content)
+        _cached_font = ImageFont.truetype(font_data, size=size)
+    
+    return _cached_font
+
 def icon(letter):
     size = (200, 200)
     
-    
-    # Define colors for each letter
+  
     colors = {
         "A": "green", "B": "blue", "C": "black", "D": "orange", "E": "purple", "F": "yellow", 
         "G": "pink", "H": "brown", "I": "pink", "J": "orange", "K": "cyan", "L": "magenta", 
@@ -299,31 +320,35 @@ def icon(letter):
         "Y": "khaki", "Z": "lavender"
     }
     
-    # Get the color for the letter
-    color = colors.get(letter.upper(), "gray")  # Default to gray if letter is not in the map
+
+    color = colors.get(letter.upper(), "gray")  
     
-    # Create an image with RGBA mode (transparent background)
+
     image = Image.new("RGBA", size, (255, 255, 255, 0))
     draw = ImageDraw.Draw(image)
 
-    # Draw a rounded rectangle with the letter's color
-    corner_radius = 15
+
+    corner_radius = 20
     draw.rounded_rectangle([(1, 1), (size[0]-1, size[1]-1)], radius=corner_radius, fill=color)
     
-    # Use the default font
-    font = ImageFont.load_default()
-    # Calculate the bounding box using textbbox (supported in Pillow 8.0.0+)
+
+    font = get_cached_font(size=180)
+
+
     bbox = draw.textbbox((0, 0), letter, font=font)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
+
+ 
+    text_position = ((size[0] - text_width) // 2, (size[1] - text_height*2) // 2)
     
-    # Calculate the position to center the text
-    text_position = ((size[0] - text_width) // 2, (size[1] - text_height) // 2)
-    
-    # Draw the letter in white color
+
     draw.text(text_position, letter, fill="white", font=font)
     
     return image
+
+
+
 
 # %%
 def create_combined_image(letters, i_con):
@@ -1410,9 +1435,6 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end, nodes_classes,Te
 
 
 
-
-
-
     elif button_clicked == 'cytoscape':
       
 
@@ -1427,7 +1449,7 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end, nodes_classes,Te
            Test.append({'source':Test[-1]['target'],'target':node_id})
 
 
-        nodes, edges, stylesheet3 = process_nodes_and_edges(df, node_id)
+        nodes, edges, stylesheet3 = process_nodes_and_edges(csd, node_id)
         elements = nodes + edges
         
         number = node_id.split("-")[1]
