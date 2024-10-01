@@ -284,7 +284,20 @@ csv_data = StringIO(csd)
 pd_data = pd.read_csv(csv_data)
 
 
-
+positon1={'width': '100%', 'height': '80vh','left':-700,"top":120, 'position': 'absolute','zIndex': 0}
+positon2={'width': '100%', 'height': '80vh','left':-20, 'top':-100, 'position': 'absolute','zIndex': 0}
+positon3={'overflow': 'hidden','width': '80%', 'right': 0, 'height': '80vh', "top":"100px", 'position': 'absolute', 'zIndex': 2}
+positon4 = {
+    'overflow': 'hidden',   # Ensure any overflow is hidden (optional based on your needs)
+    'width': '50%',        # Set the width to 100% of the parent container
+    'height': '80vh',       # Set the height to 100% of the parent container
+    'position': 'absolute', # Absolute positioning to control placement
+    'bottom': '50%',  
+    'right': '50%',
+    'transform': 'translate(50%, 50%)',  
+    'zIndex': 2,
+    'zoom': 0.7
+}
 
 
 
@@ -417,7 +430,7 @@ def create_combined_image(letters, i_con):
 
 
 # %%
-node_labels = ["Hart failure", "ASCD VTE HZ", "Malignancy", "Diverticultis", "AAB DMD", "IG Vaccination", "RA ILD"]
+
 
 
 
@@ -880,8 +893,8 @@ def rebuild_and_highlight_graph(csd, Test,  elements2, nodes_classes, background
     outy2= "This is what youb selected"
     stylesheet= stylesheet_basic
     layout=standart_layout
-    postion={'width': '100%', 'height': '100%','left':-500, 'position': 'absolute','zIndex': 1}
-    positon_g1={'width': '100%', 'height': '100%', 'position': 'absolute', 'zIndex': 0}
+    postion=positon1 
+    positon_g1=positon3
     
 
 
@@ -911,7 +924,7 @@ for i in icon_list:
     background_images.append(icony)
 
 
-node_labels = ["Welcome to the tharpeutic matchmaking","Heart failure?", "SCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?"]
+node_labels = ["Heart failure?", "SCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "End of story"]
 
 
 nodes, edges, df, stylesheet1 = create_nodes_and_edges(csd)
@@ -934,7 +947,8 @@ def logic(n):
     elif n == 6:
         return "Auto-antibody formation (like anti-nuclear antibodies, ANA, or double-stranded DNA antibodies, dsDNA) and demyelinating diseases (DMD) like Multiple sclerosis or Guillain-Barré syndrome have been observed in patients under TNFi therapy."
     elif n == 7:
-        return "Conversely, specific extraarticular efficacy may positively select DMARDs: in RA-ILD, rituximab or abatacept may be favored over TNFi, IL6i, and JAKi."
+        return "End of story"
+
 
     
 def logic2(n):
@@ -1028,7 +1042,7 @@ controls = dbc.Card(
                         'border-radius': '50%',  # Perfect circle
                         'background-color': '#66BB6A',  # Soft green background
                         'color': 'white',
-                        'border': '3px solid #4A8B4A',  # Stronger border in darker tone
+                        'border': '3px solid #4A8B4A',  
                         'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',  
                         'display': 'flex',
                         'align-items': 'center',  
@@ -1146,10 +1160,7 @@ start=html.Div([dbc.Button("Start", id="Start", color="primary", style={'margin'
 text_output = html.Div([html.P("Output: ", id="Outy")])
 text_output2 = html.Div([html.H1("Output: ", id="Outy2")])
 
-positon1={'width': '100%', 'height': '100%','left':-500, 'position': 'absolute','zIndex': 0}
-positon2={'width': '100%', 'height': '100%','left':0, 'top':-200, 'position': 'absolute','zIndex': 0}
-positon3={'overflow': 'hidden','width': '100%', 'height': '100%', "top":"100px", 'position': 'absolute', 'zIndex': 1}
-positon4={'overflow': 'hidden','width': '100%', 'height': '100%', 'position': 'absolute', 'zIndex': 1}
+
 
 
 
@@ -1158,7 +1169,7 @@ cyto1 = cyto.Cytoscape(
     elements=nodes + edges,
     style=positon3,
     layout=standart_layout,
-    maxZoom=1,
+    maxZoom=0.4,
     minZoom=0.01,
     stylesheet=stylesheet1	
    
@@ -1229,7 +1240,7 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(
             html.Div([header,jumbotron, controls, cyto2, cyto1], 
-            style={'width': '100%', 'height': '120vh'}),
+            style={'width': '100%', 'height': '80vh'}),
             width=12
         )
     ]),
@@ -1484,6 +1495,8 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end, nodes_classes,Te
         
     elif button_clicked == 'End':
         tasty = [f"source-{item['source']}_target-{item['target']}" for item in Test]
+        save=[]
+        Test=[]
         return rebuild_and_highlight_graph(csd, tasty,elements2, nodes_classes, background_images, node_labels)
     
 
