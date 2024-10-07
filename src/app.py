@@ -288,10 +288,10 @@ positon1={'width': '100%', 'height': '80vh','left':-700,"top":120, 'position': '
 positon2={'width': '100%', 'height': '80vh','left':-20, 'top':-100, 'position': 'absolute','zIndex': 0}
 positon3={'overflow': 'hidden','width': '90%', 'right': 0, 'height': '80vh', "top":"100px", 'position': 'absolute', 'zIndex': 2}
 positon4 = {
-    'overflow': 'hidden',   # Ensure any overflow is hidden (optional based on your needs)
-    'width': '50%',        # Set the width to 100% of the parent container
-    'height': '80vh',       # Set the height to 100% of the parent container
-    'position': 'absolute', # Absolute positioning to control placement
+    'overflow': 'hidden',   
+    'width': '50%',        
+    'height': '80vh',       
+    'position': 'absolute', 
     'bottom': '50%',  
     'right': '50%',
     'transform': 'translate(50%, 50%)',  
@@ -302,18 +302,15 @@ positon4 = {
 
 
 # %%
-from PIL import Image, ImageDraw, ImageFont
-import requests
-from io import BytesIO
 
-# Global variable to cache the font
+_combined_cache = {}
 _cached_font = None
+_icon_cache = {}
 
 def get_cached_font(size):
     global _cached_font
     
     if _cached_font is None:
-        # Download and cache the font once
         font_url = "https://github.com/google/fonts/raw/main/ofl/carlito/Carlito-Regular.ttf"
         response = requests.get(font_url)
         font_data = BytesIO(response.content)
@@ -322,9 +319,12 @@ def get_cached_font(size):
     return _cached_font
 
 def icon(letter):
+
+    if letter in _icon_cache:
+        return _icon_cache[letter]
+    
     size = (200, 200)
     
-  
     colors = {
         "A": "green", "B": "blue", "C": "black", "D": "orange", "E": "purple", "F": "yellow", 
         "G": "pink", "H": "brown", "I": "pink", "J": "orange", "K": "cyan", "L": "magenta", 
@@ -332,9 +332,8 @@ def icon(letter):
         "S": "aqua", "T": "red", "U": "tan", "V": "turquoise", "W": "violet", "X": "gold", 
         "Y": "khaki", "Z": "lavender"
     }
-    
 
-    color = colors.get(letter.upper(), "gray")  
+    color = colors.get(letter.upper(), "gray")
     
 
     image = Image.new("RGBA", size, (255, 255, 255, 0))
@@ -343,20 +342,22 @@ def icon(letter):
 
     corner_radius = 20
     draw.rounded_rectangle([(1, 1), (size[0]-1, size[1]-1)], radius=corner_radius, fill=color)
-    
+
 
     font = get_cached_font(size=180)
-
-
+    
+ 
     bbox = draw.textbbox((0, 0), letter, font=font)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
-
- 
-    text_position = ((size[0] - text_width) // 2, (size[1] - text_height*2) // 2)
     
+   
+    text_position = ((size[0] - text_width) // 2, (size[1] - text_height * 2) // 2)
 
     draw.text(text_position, letter, fill="white", font=font)
+
+
+    _icon_cache[letter] = image
     
     return image
 
@@ -364,16 +365,29 @@ def icon(letter):
 
 
 # %%
+def get_cached_icon(letter, i_con):
+    if letter not in _icon_cache:
+        _icon_cache[letter] = i_con(letter)
+    return _icon_cache[letter]
+
 def create_combined_image(letters, i_con):
     combined_w = []
     combined_h = []
-    list = []
+    list_base64 = []
+
     for i in letters:
+        if i in _combined_cache:
+            list_base64.append(_combined_cache[i]['image_base64'])
+            combined_w.append(_combined_cache[i]['width'])
+            combined_h.append(_combined_cache[i]['height'])
+            continue
+        
         yy = i.split('-')[0]
         yy = yy.split('/')  
         num_icons = len(yy)
         icon_size = (200, 200)
         
+
         if num_icons == 4:
             combined_width = int(icon_size[0] * 2.5)
             combined_height = icon_size[1] * 2
@@ -390,10 +404,12 @@ def create_combined_image(letters, i_con):
         combined_w.append(combined_width)
         combined_h.append(combined_height)
 
+        # Create the combined image
         combined_image = Image.new("RGBA", (combined_width, combined_height), (255, 255, 255, 0))
         
+        # Place each icon into the combined image
         for j, letter in enumerate(yy):
-            icon_image = i_con(letter)
+            icon_image = get_cached_icon(letter, i_con)
             if num_icons == 3:
                 if j == 0:
                     combined_image.paste(icon_image, (icon_size[0] // 2, 0), icon_image)
@@ -417,13 +433,21 @@ def create_combined_image(letters, i_con):
                     combined_image.paste(icon_image, ((j - 3) * icon_size[0], icon_size[1]), icon_image)
             else:
                 combined_image.paste(icon_image, (j * icon_size[0], 0), icon_image)
-        
+
+ 
         buffered = io.BytesIO()
         combined_image.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode()
-        list.append(img_str)
-    
-    icon_base64 = dict(zip(letters, list))
+        list_base64.append(img_str)
+        
+        # Cache the combined image
+        _combined_cache[i] = {
+            'image_base64': img_str,
+            'width': combined_width,
+            'height': combined_height
+        }
+
+    icon_base64 = dict(zip(letters, list_base64))
     return icon_base64, combined_w, combined_h
 
 
@@ -592,7 +616,7 @@ def create_nodes_and_edges_updates(number, node_labels, icon_base64):
                 'height': 90 if i == number else 60,
                 'background-color': colors[i] if i == number else '#ffffff',
                 'border': f'2px solid {colors[i]}' if i == number else '0.5px dashed #000000',
-                'border-style': 'solid' if i == number else 'dashed',  # Dashed border for unselected nodes
+                'border-style': 'solid' if i == number else 'dashed',
                 'border-width': 2 if i == number else 0.5,
                 "border-opacity": 1,
                 'background-opacity': 0.4,
