@@ -284,21 +284,6 @@ csv_data = StringIO(csd)
 pd_data = pd.read_csv(csv_data)
 
 
-positon1={'width': '100%', 'height': '80vh','left':-700,"top":120, 'position': 'absolute','zIndex': 0}
-positon2={'width': '100%', 'height': '80vh','left':-20, 'top':-100, 'position': 'absolute','zIndex': 0}
-positon3={'overflow': 'hidden','width': '90%', 'right': 0, 'height': '80vh', "top":"100px", 'position': 'absolute', 'zIndex': 2}
-positon4 = {
-    'overflow': 'hidden',   
-    'width': '50%',        
-    'height': '80vh',       
-    'position': 'absolute', 
-    'bottom': '50%',  
-    'right': '50%',
-    'transform': 'translate(50%, 50%)',  
-    'zIndex': 2,
-    'zoom': 0.7
-}
-
 
 
 # %%
@@ -404,10 +389,10 @@ def create_combined_image(letters, i_con):
         combined_w.append(combined_width)
         combined_h.append(combined_height)
 
-        # Create the combined image
+       
         combined_image = Image.new("RGBA", (combined_width, combined_height), (255, 255, 255, 0))
         
-        # Place each icon into the combined image
+
         for j, letter in enumerate(yy):
             icon_image = get_cached_icon(letter, i_con)
             if num_icons == 3:
@@ -440,7 +425,7 @@ def create_combined_image(letters, i_con):
         img_str = base64.b64encode(buffered.getvalue()).decode()
         list_base64.append(img_str)
         
-        # Cache the combined image
+   
         _combined_cache[i] = {
             'image_base64': img_str,
             'width': combined_width,
@@ -547,7 +532,7 @@ def create_nodes_and_edges_e2(node_labels, background_images):
 
 
 
-import math
+
 
 def create_nodes_and_edges_updates(number, node_labels, icon_base64):
     number = int(number) // 10 
@@ -819,13 +804,11 @@ def create_nodes_and_edges(csd):
         for i in range(len(df3["nodes"]))
     ]
     stylesheet= stylesheet_basic
+    
+
+
 
     return nodes, edges, df, stylesheet
-
-
-
-
-
 
 
 def process_nodes_and_edges(csd, node_id):
@@ -992,7 +975,7 @@ def logic2(n):
 
 
 
-standart_layout={'name': 'preset',}
+standart_layout={'name': 'preset'}
  
  
 game_layout={
@@ -1013,21 +996,21 @@ qq=h_-20
 s=50
 controls = dbc.Card(
     [
-        # Circular buttons with icons and labels underneath
+
         html.Div(
             [
                 html.Div(
                     [
                         dbc.Button(
-                            [  # Icon only, no text
-                                html.I(className="fas fa-play-circle", style={'font-size': qq})  # Font Awesome Play Icon
+                            [  
+                                html.I(className="fas fa-play-circle", style={'font-size': qq})  
                             ],
                             id="Start", color="primary", className="btn-lg",
                             style={
-                                'width': w_,  # Circular button
+                                'width': w_,  
                                 'height': h_,
-                                'border-radius': '50%',  # Perfect circle
-                                'background-color': '#5A9BD4',  # Soft blue background
+                                'border-radius': '50%',  
+                                'background-color': '#5A9BD4',  
                                 'color': 'white',
                                 'border': '3px solid #3A6FA4',  # Stronger border in darker tone
                                 'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
@@ -1038,7 +1021,7 @@ controls = dbc.Card(
                                 'margin-bottom': '10px',  # Spacing between button and label
                             }
                         ),
-                        html.P("Start", style={'text-align': 'center'})  # Label below the button
+                        html.P("Start", style={'text-align': 'center'})  
                     ],
                     style={'display': 'inline-block', 'text-align': 'center', 'margin': '10px'}
                 ),
@@ -1046,7 +1029,7 @@ controls = dbc.Card(
                     [
                         dbc.Button(
                             [  # Icon only, no text
-                                html.I(className="fas fa-sync", style={'font-size': qq})  # Font Awesome Sync Icon
+                                html.I(className="fas fa-sync", style={'font-size': qq})  
                             ],
                             id="Reset", color="secondary", className="btn-lg",
                             style={
@@ -1197,7 +1180,10 @@ header = html.H1(
 
 
 
-
+positon1={'overflow': 'visible','width': '30%', 'height': '80vh',"top":120, 'position': 'absolute','zIndex': 0}
+positon2={'width': '50%', 'height': '80vh', 'top': -200, 'position': 'relative','zIndex': 0}
+positon3={'overflow': 'visible','width': '80%','left':"20%",'height': '80vh', "top":120, 'position': 'absolute', 'zIndex': 2}
+positon4 = {'overflow': 'hidden','width': '50%','height': '80vh','position': 'absolute', 'bottom': '50%','right': '50%','transform': 'translate(50%, 50%)','zIndex': 2}
 
 
 
@@ -1221,13 +1207,117 @@ cyto2 = cyto.Cytoscape(
     layout={'name': 'preset'},
     style=positon1,
     maxZoom=1,
+    minZoom=1,
     stylesheet=stylesheet_graphic
     )
 
 
 
-zoom_level=0.5
- 
+
+background_images = [f"https://api.iconify.design/{icon}.svg" for icon in icon_list]
+
+
+node_labels = [
+    "Heart failure?", "SCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", 
+    "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "End of the matchmaking"
+]
+
+def generate_icon_position(angle, i, radius=500, horizontal_stretch=1.5, vertical_stretch=1.0, rotation=110):
+
+    rotated_angle = angle + rotation
+
+    x = radius * horizontal_stretch * math.cos(math.radians(rotated_angle))
+    y = radius * vertical_stretch * math.sin(math.radians(rotated_angle))
+
+    return {
+        'position': 'absolute',
+        'top': f'calc(50% + {y}px)',  
+        'left': f'calc(50% + {x}px)',
+        "background-color": "#ffffff",
+        "background-image": f"url({background_images[i]})",  
+        "background-size": "contain",
+        "background-position": "center",
+        'transform': 'translate(-50%, -50%)',
+        'border': '1.5px dashed',
+
+        'border-radius': '50%',
+        'width': '60px', 
+        'height': '60px',
+        'zIndex': -1,
+        'display': 'flex',
+        'align-items': 'center',
+        'justify-content': 'center',
+    }
+
+
+angles = [30, 45, 60, 75, 90, 105, 120]
+
+
+icons = [
+    html.Div(
+        style=generate_icon_position(angles[i], i),  
+        id=f'icon-{i}', 
+        children=[
+            html.P(node_labels[i], style={
+                'text-align': 'center', 
+                'color': 'black', 
+                'font-size': '12px',
+                'position': 'absolute',
+                'bottom': '-40px',  
+                'width': '300%',  
+            })
+        ]
+    ) for i in range(len(angles))
+]
+
+
+def generate_icon_position(angle, i, radius=300, horizontal_stretch=1, vertical_stretch=1.2, rotation=200):
+
+    rotated_angle = angle + rotation
+
+    x = radius * horizontal_stretch * math.cos(math.radians(rotated_angle))
+    y = radius * vertical_stretch * math.sin(math.radians(rotated_angle))
+
+    return {
+        'position': 'absolute',
+        'top': f'calc(50% + {y}px)',  
+        'left': f'calc(50% + {x}px)',
+        "background-color": "#ffffff",
+        "background-image": f"url({background_images[i]})",  
+        "background-size": "contain",
+        "background-position": "center",
+        'transform': 'translate(-50%, -50%)',
+        'border': '1.5px dashed',
+
+        'border-radius': '50%',
+        'width': '60px', 
+        'height': '60px',
+        'zIndex': -1,
+        'display': 'flex',
+        'align-items': 'center',
+        'justify-content': 'center',
+    }
+
+
+angles = [30, 45, 60, 75, 90, 105, 120]
+
+
+icons = [
+    html.Div(
+        style=generate_icon_position(angles[i], i),  
+        id=f'icon-{i}', 
+        children=[
+            html.P(node_labels[i], style={
+                'text-align': 'center', 
+                'color': 'black', 
+                'font-size': '12px',
+                'position': 'absolute',
+                'bottom': '-40px',  
+                'width': '300%',  
+            })
+        ]
+    ) for i in range(len(angles))
+]
 
 
 
@@ -1241,7 +1331,7 @@ jumbotron = html.Div(
                 text_output,
                 className="lead",
             ),
-            # Buttons in a single row
+ 
             html.Div(
                 [
                     dbc.Button("Learn more", color="primary", className="mx-2 d-inline-block"),
@@ -1281,8 +1371,13 @@ jumbotron = html.Div(
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(
-            html.Div([header,jumbotron, controls, cyto2, cyto1], 
-            style={'width': '100%', 'height': '80vh'}),
+            html.Div([header,jumbotron, controls, cyto2, cyto1, icons[0], icons[1], icons[2], icons[3], icons[4], icons[5], icons[6]],
+            style={
+
+                    'flex-direction': 'row',
+                    'display': 'flex' 
+
+                }),
             width=12
         )
     ]),
@@ -1291,6 +1386,7 @@ app.layout = dbc.Container([
             dcc.Store(id='nodes_classes'),
             dcc.Store(id='Test'),
             dcc.Store(id='save'),
+            dcc.Store(id="position")
 
 
         ])
@@ -1523,13 +1619,7 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
 
 
      
-        if id!=[]:
-         if id[0]==id[1] or id[1]=="0" or id[1]==0:
-                 elements= [[sa for sa in save ][-1]]
-                 positon_g1["zoom"]=1
-        else:
-             elements= [[sa for sa in save ][-1]]
-             positon_g1["zoom"]=1
+
 
   
         layout = game_layout
