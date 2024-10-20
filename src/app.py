@@ -438,193 +438,6 @@ def create_combined_image(letters, i_con):
 
 
 
-# %%
-
-
-
-
-def create_nodes_and_edges_e2(node_labels, background_images):
-    radius_x = 800
-    radius_y = 500
-    center_x = -200
-    center_y = -200
-
-    icon_base64 = []
-    for i in range(7):
-        icon_base64.append(background_images[i])
-
-
-    elements2 = [
-        {
-            'data': {'id': f'node{i}', 'label': node_labels[i]},
-            'position': {
-            'x': center_x - radius_x * math.cos(math.pi * (i - 3) / 14), 
-            'y': center_y + radius_y * math.sin(math.pi * (i - 3) / 14) 
-            }
-        }
-        for i in range(7)
-    ]
-
- 
-    edges2 = [
-        {'data': {'source': f'node{i}', 'target': f'node{i+1}'}, "classes": "invisibleEdge"}
-        for i in range(6)
-    ]
-    edges2.append({'data': {'source': 'node6', 'target': 'node0'}, "classes": "invisibleEdge"})
-
-    elements2.extend(edges2)
-
-    stylesheet = [
-        {
-            'selector': 'node',
-            'style': {
-                'background-color': '#BFD7B5',
-                'width': 50,
-                'height': 50,
-                'label': 'data(label)',
-                'text-halign': 'center',
-                'text-valign': 'center',
-                'font-size': '12px',
-                'color': 'black'
-
-            }
-        }
-    ]
-
-
-    stylesheet.extend([
-        {
-            'selector': f'#node{i}', 
-            'style': {
-                "background-fit": "contain",
-                'background-image': icon_base64[i],  
-                "background-color": "#ffffff",
-                "border-color": "#000000",
-                
-                "border-width": 1,
-                "border-opacity": 1,
-                "border-style": "dashed",
-                "width": 60,  
-                "height": 60,
-                "font-size": "12px",
-                "text-valign": "bottom",
-                "text-halign": "center",
-                "text-margin-y": 8
-
-            }
-        }
-        for i in range(7)
-    ])
-
-    stylesheet.append({
-        'selector': 'edge.invisibleEdge', 
-        'style': {
-            'line-color': 'white',  
-            'width': 0  
-        }
-    })
-
-    return elements2, stylesheet, icon_base64
-
-
-
-
-
-
-
-
-
-def create_nodes_and_edges_updates(number, node_labels, icon_base64):
-    number = int(number) // 10 
-
-    colors = [
-        "#D62728",  # Heart failure? (Red)
-        "#2CA02C",  # SCVD, VTE, HZ? (Green)
-        "#FFD700",  # Malignancy? (Yellow)
-        "#9467BD",  # Diverticulitis? (Purple)
-        "#1F77B4",  # Autoantibodies, DMD? (Blue)
-        "#808080",  # HG, vaccination? (Gray)
-        "#8C564B",  # RA-ILD? (Brown)
-        "#1F77B4"   # End of story (Blue)
-    ]
-
-
-    total_nodes = 7
- 
-
-    radius_x = 400
-    radius_y = 200
-    center_x = -500
-    center_y = 800
-
-
-    e2 = [
-        {
-            'data': {'id': f'node{i}', 'label': node_labels[i]},
-            'position': {
-                'x': center_x - radius_x * math.cos(math.pi * i / 6),
-                'y': center_y - radius_y * math.sin(math.pi * i / 6)
-            }
-        }
-        for i in range(7)
-    ]
-
-    edges2 = [
-        {'data': {'source': f'node{i}', 'target': f'node{i+1}'}, "classes": "invisibleEdge"}
-        for i in range(6)
-    ]
-    edges2.append({'data': {'source': 'node6', 'target': 'node0'}, "classes": "invisibleEdge"})
-    e2.extend(edges2)
-
-    s2 = [
-        {
-            'selector': 'node',
-            'style': {
-                'background-color': '#BFD7B5',
-                'label': 'data(label)',
-                'text-halign': 'center',
-                'text-valign': 'center',
-                'font-size': '12px',
-                'color': 'black',
-                'bottom': 500
-            }
-        }
-    ]
-
-    s2.extend([
-        {
-            'selector': f'#node{i}',
-            'style': {
-                'background-fit': 'contain',
-                'background-image': icon_base64[i],
-                'width': 90 if i == number else 60,  
-                'height': 90 if i == number else 60,
-                'background-color': colors[i] if i == number else '#ffffff',
-                'border': f'2px solid {colors[i]}' if i == number else '0.5px dashed #000000',
-                'border-style': 'solid' if i == number else 'dashed',
-                'border-width': 2 if i == number else 0.5,
-                "border-opacity": 1,
-                'background-opacity': 0.4,
-                'font-size': '20px' if i == number else '12px',
-                'text-valign': 'bottom',
-                'text-halign': 'center',
-                'text-margin-y': 8,
-                'bootstrap-tooltip': node_labels[i]
-
-            }
-        }
-        for i in range(total_nodes)
-    ])
-
-    s2.append({
-        'selector': 'edge.invisibleEdge',
-        'style': {
-            'line-color': 'white',
-            'width': 0
-        }
-    })
-
-    return e2, s2
 
 
 # %% [markdown]
@@ -657,7 +470,7 @@ stylesheet_basic = [
         'selector': 'edge',
         'style': {
             'label': 'data(label)',
-            'font-size': '0px',
+            'font-size': '0px'
                 }
     },
     {
@@ -667,10 +480,10 @@ stylesheet_basic = [
             'curve-style': 'bezier',
             'font-size': '40px',
             'color': 'white',
-            'text-background-color': 'gray',
+            'text-background-color': 'blue',
             'text-background-opacity': 1,
             'shape': 'ellipse',
-            'text-background-padding': '30px',
+            'text-background-padding': '40px',
             'text-border-color': 'black',
             'text-border-opacity': 1,
             'text-border-width': '1px',
@@ -686,9 +499,9 @@ stylesheet_basic = [
         'selector': '.highlighted',
         'style': {
             'line-color': 'red',
-            'target-arrow-color': 'yellow',
-            'source-arrow-color': 'yellow',
-            'width': 4
+            'target-arrow-color': 'red',
+            'source-arrow-color': 'red',
+            'width': 5
 
         }
     },
@@ -811,7 +624,7 @@ def create_nodes_and_edges(csd):
     return nodes, edges, df, stylesheet
 
 
-def process_nodes_and_edges(csd, node_id):
+def process_nodes_and_edges(csd, node_id, status):
     nodes, edges, df, stylesheet = create_nodes_and_edges(csd)
     new_nodes_XX=[]
 
@@ -869,10 +682,27 @@ def process_nodes_and_edges(csd, node_id):
         }
         for i in range(len(new_nodes_df))
     ]
- 
 
-  
-    stylesheet = stylesheet_basic
+    stylesheet = stylesheet_basic + [
+        {
+            'selector': 'edge',
+            'style': {
+
+            'text-background-color': 'gray',
+            'text-background-opacity': 1,
+            'shape': 'ellipse',
+            'width': 1,
+            'text-background-padding': '20px',
+            'text-border-color': 'black',
+            'text-border-opacity': 1,
+            'text-border-width': '1px',
+            'line-color': 'gray',
+            'font-size': '30px',
+            'color': 'white'
+
+            }
+        }
+    ]
  
 
 
@@ -880,12 +710,12 @@ def process_nodes_and_edges(csd, node_id):
 
 
 
-def rebuild_and_highlight_graph(csd, Test,  elements2, nodes_classes, background_images, node_labels):
+def rebuild_and_highlight_graph(csd, Test, nodes_classes, background_images, node_labels):
     layout=standart_layout
     
     nodes, edges, df, stylesheet = create_nodes_and_edges(csd)
+    icon_container = incon("off", 0)
     
-    elements2, stylesheet_graphic, icon_base64=create_nodes_and_edges_e2(node_labels, background_images)
 
 
 
@@ -897,14 +727,13 @@ def rebuild_and_highlight_graph(csd, Test,  elements2, nodes_classes, background
     
 
     elements = nodes + edges
-    s2 = stylesheet_graphic
-    e2 = elements2
 
-    outy2 = "End of the matchmaking"
-    outy= "You've reached the end of matchmaking. Please press the 'End' button to view your path or 'Reset' to start over."
+
+    outy2 = "This is the end of the RA precision pathway"
+    outy= "You’ve completed the therapeutic matchmaking journey. Please press 'End'  to view your path or 'Reset' to start over."
     stylesheet= stylesheet_basic
     layout=standart_layout
-    postion=positon1 
+
     positon_g1=positon3
     
 
@@ -913,7 +742,7 @@ def rebuild_and_highlight_graph(csd, Test,  elements2, nodes_classes, background
     save=[]
 
     
-    return layout, elements,stylesheet, s2, e2, nodes_classes, outy, Test, outy2, postion, positon_g1, save
+    return layout,elements,stylesheet,nodes_classes, outy, Test, outy2, positon_g1, save, icon_container
 
 # %%
 edges = []
@@ -927,19 +756,10 @@ server = app.server
 
 
 
-icon_list=["healthicons:heart-organ-outline", "healthicons:virus-alt-outline", "wi:cloud", "healthicons:colon-outline", "healthicons:y-outline", "healthicons:syringe-outline", "healthicons:blood-vessel-outline"]
-background_images=[]
 
-for i in icon_list:
-    icony=f"https://api.iconify.design/{i}.svg"
-    background_images.append(icony)
-
-
-node_labels = ["Heart failure?", "SCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "End of the matchmaking"]
 
 
 nodes, edges, df, stylesheet1 = create_nodes_and_edges(csd)
-elements2, stylesheet_graphic, icon_base64=create_nodes_and_edges_e2(node_labels, background_images)
 
 
 t1="Welcome!"
@@ -955,14 +775,14 @@ def logic(n):
         return "Abatacept and JAKi might increase the risk of malignancies and might not be favored in patients with current or recent malignancies."
     elif n == 3:
         return "IL6i increase the risk for gastrointestinal perforations, especially in patients with current or history of diverticulitis; this potential risk has recently also been observed for JAKi."
-    elif n == 4:
-        return "Hypogammaglobulinemia may disfavor rituximab, and response to any planned vaccination may be limited after rituximab has been started."
     elif n == 5:
-        return "Auto-antibody formation (like anti-nuclear antibodies, ANA, or double-stranded DNA antibodies, dsDNA) and demyelinating diseases (DMD) like Multiple sclerosis or Guillain-Barré syndrome have been observed in patients under TNFi therapy."
+        return "Hypogammaglobulinemia may disfavor rituximab, and response to any planned vaccination may be limited after rituximab has been started."
+    elif n == 4:
+        return "Auto-antibody formation (like anti-nuclear antibodies, ANA, or double-stranded DNA antibodies, dsDNA) and demyelinating diseases (DMD) like Multiple sclerosis or Guillain-Barré syndrome have been observed in patients on TNFi therapy."
     elif n == 6:
         return "Conversely, specific extraarticular efficacy may positively select DMARDs: in RA-ILD, rituximab or abatacept may be favored over TNFi, IL6i and JAKi."
     elif n == 7:
-        return  "You've reached the end of matchmaking. Please press the 'End' button to view your path or 'Reset' to start over."
+        return  "You’ve completed the therapeutic matchmaking journey. Please press “End” to view your path or 'Reset' to start over."
 
 
     
@@ -1164,7 +984,7 @@ text_output = html.Div([html.P("Output: ", id="Outy")])
 text_output2 = html.Div([html.H1("Output: ", id="Outy2")])
 
 header = html.H1(
-    "The RA decision tree", 
+    "The RA Precision Pathway", 
     style={
         'textAlign': 'center', 
         'color': 'black', 
@@ -1178,12 +998,47 @@ header = html.H1(
     }
 )
 
+sub_header = html.H2(
+    "Find the optimal therapeutic match for each patient", 
+    style={
+        'textAlign': 'center', 
+        'color': 'black',
+        'width': '100%',
+        'font-size': '20px',
+        'font-weight': '200',  
+        'position': 'absolute',  
+        'top': '70px',  
+        'left': '50%', 
+        'transform': 'translateX(-50%)', 
+        'zIndex': 10 
+    }
+)
 
 
-positon1={'overflow': 'visible','width': '30%', 'height': '80vh',"top":120, 'position': 'absolute','zIndex': 0}
-positon2={'width': '50%', 'height': '80vh', 'top': -200, 'position': 'relative','zIndex': 0}
-positon3={'overflow': 'visible','width': '80%','left':"20%",'height': '80vh', "top":120, 'position': 'absolute', 'zIndex': 2}
-positon4 = {'overflow': 'hidden','width': '50%','height': '80vh','position': 'absolute', 'bottom': '50%','right': '50%','transform': 'translate(50%, 50%)','zIndex': 2}
+
+positon3 = {
+    'overflow': 'visible',
+    'width': '100%',
+    'height': '80vh',
+    'top': '10vh',  # Use vh for vertical positioning
+    'position': 'fixed',
+    'zIndex': 2,
+    'right': '0%',
+    'display': 'flex',
+    'margin': 'auto',
+    'left': '0%'
+}
+
+positon4 = {
+    'overflow': 'hidden',
+    'width': '100%',
+    'height': '80vh',
+    'position': 'absolute',
+    'bottom': '50%',
+    'right': '50%',
+    'transform': 'translate(50%, 50%)',
+    'zIndex': 2
+}
 
 
 
@@ -1201,126 +1056,115 @@ cyto1 = cyto.Cytoscape(
 
 
 
-cyto2 = cyto.Cytoscape(
-    id='cytoscape2',
-    elements=elements2,
-    layout={'name': 'preset'},
-    style=positon1,
-    maxZoom=1,
-    minZoom=1,
-    stylesheet=stylesheet_graphic
-    )
 
 
-
+# %% Graph 2
+icon_list=["healthicons:heart-organ-outline", "healthicons:virus-alt-outline", "wi:cloud", "healthicons:colon-outline", "healthicons:y-outline", "healthicons:syringe-outline", "healthicons:blood-vessel-outline"]
 
 background_images = [f"https://api.iconify.design/{icon}.svg" for icon in icon_list]
 
-
 node_labels = [
-    "Heart failure?", "SCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", 
-    "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "End of the matchmaking"
+    "Heart failure?", "ASCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", 
+    "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "This is the end of the RA precision pathway"
 ]
 
-def generate_icon_position(angle, i, radius=500, horizontal_stretch=1.5, vertical_stretch=1.0, rotation=110):
+angles = [30, 45, 60, 75, 90, 105, 120]
+
+
+colors = [
+    "rgba(214, 39, 40, 0.5)",  # Heart failure? (Red)
+    "rgba(44, 160, 44, 0.5)",  # SCVD, VTE, HZ? (Green)
+    "rgba(255, 215, 0, 0.5)",  # Malignancy? (Yellow)
+    "rgba(148, 103, 189, 0.5)",  # Diverticulitis? (Purple)
+    "rgba(31, 119, 180, 0.5)",  # Autoantibodies, DMD? (Blue)
+    "rgba(128, 128, 128, 0.5)",  # HG, vaccination? (Gray)
+    "rgba(140, 86, 75, 0.5)",  # RA-ILD? (Brown)
+    "rgba(31, 119, 180, 0.5)"   # End of story (Blue)
+]
+
+def generate_icon_position(angle, i, setting, number):
+    if setting == "Start":
+        radius = 300
+        horizontal_stretch = 2
+        vertical_stretch = 2.1
+        rotation = 195
+    else:
+        radius = 400
+        horizontal_stretch = 2.0
+        vertical_stretch = 1.2
+        rotation = 110
+        number = -1
 
     rotated_angle = angle + rotation
 
     x = radius * horizontal_stretch * math.cos(math.radians(rotated_angle))
     y = radius * vertical_stretch * math.sin(math.radians(rotated_angle))
 
-    return {
+    position = {
         'position': 'absolute',
-        'top': f'calc(50% + {y}px)',  
-        'left': f'calc(50% + {x}px)',
-        "background-color": "#ffffff",
-        "background-image": f"url({background_images[i]})",  
+        'top': f'calc(50% + {y}px)' if setting != "Start" else f'calc(70% + {y}px)',  # Center vertically
+        'left': f'calc(50% + {x}px)' if setting == "Start" else f'calc(40% + {x}px)',  # Center horizontally
+        "background-image": f"url({background_images[i]})",
+        "background-color": colors[i] if i == number else "rgba(255, 255, 255, 0.5)",
         "background-size": "contain",
         "background-position": "center",
-        'transform': 'translate(-50%, -50%)',
-        'border': '1.5px dashed',
-
+        'border-style': 'solid' if i == number else 'dashed',
         'border-radius': '50%',
-        'width': '60px', 
-        'height': '60px',
-        'zIndex': -1,
-        'display': 'flex',
+        'width': f'{110 if i == number else 80}px',  
+        'height': f'{110 if i == number else 80}px',
+        'border-width': f'{3 if i == number else 1.5}px',
+        'zIndex': 0, 
         'align-items': 'center',
         'justify-content': 'center',
+        'font-size': f'{20 if i == number else 12}px',
+        'transform': 'translate(-50%, -50%)'  # Center the icon
     }
 
+    return position
 
-angles = [30, 45, 60, 75, 90, 105, 120]
+def incon(Signal, level):
+    icons = [
+        html.Div(
+            style=generate_icon_position(angles[i], i, Signal, level),     
+            id=f'icon-{i}', 
+            children=[
+                html.P(node_labels[i], style={
+                    'text-align': 'center', 
+                    'color': 'black', 
+                    'font-size': f'{20 if i == level else 12}px',
+                    'position': 'absolute',
+                    'top': '100%',  
+                    'width': '100%',  
+                    'left': '50%',
+                    'transform': 'translateX(-50%)',  
+                    'margin-top': '2px'  
+                })
+            ]
+        ) for i in range(len(angles))
+    ]
 
-
-icons = [
-    html.Div(
-        style=generate_icon_position(angles[i], i),  
-        id=f'icon-{i}', 
-        children=[
-            html.P(node_labels[i], style={
-                'text-align': 'center', 
-                'color': 'black', 
-                'font-size': '12px',
-                'position': 'absolute',
-                'bottom': '-40px',  
-                'width': '300%',  
-            })
-        ]
-    ) for i in range(len(angles))
-]
-
-
-def generate_icon_position(angle, i, radius=300, horizontal_stretch=1, vertical_stretch=1.2, rotation=200):
-
-    rotated_angle = angle + rotation
-
-    x = radius * horizontal_stretch * math.cos(math.radians(rotated_angle))
-    y = radius * vertical_stretch * math.sin(math.radians(rotated_angle))
-
-    return {
-        'position': 'absolute',
-        'top': f'calc(50% + {y}px)',  
-        'left': f'calc(50% + {x}px)',
-        "background-color": "#ffffff",
-        "background-image": f"url({background_images[i]})",  
-        "background-size": "contain",
-        "background-position": "center",
-        'transform': 'translate(-50%, -50%)',
-        'border': '1.5px dashed',
-
-        'border-radius': '50%',
-        'width': '60px', 
-        'height': '60px',
-        'zIndex': -1,
-        'display': 'flex',
-        'align-items': 'center',
-        'justify-content': 'center',
-    }
-
-
-angles = [30, 45, 60, 75, 90, 105, 120]
-
-
-icons = [
-    html.Div(
-        style=generate_icon_position(angles[i], i),  
-        id=f'icon-{i}', 
-        children=[
-            html.P(node_labels[i], style={
-                'text-align': 'center', 
-                'color': 'black', 
-                'font-size': '12px',
-                'position': 'absolute',
-                'bottom': '-40px',  
-                'width': '300%',  
-            })
-        ]
-    ) for i in range(len(angles))
-]
+    icon_container = html.Div(
+        icons,
+        style={
+           'position': 'fixed',
+            'left': '5%',  # Adjusted to ensure visibility
+            'top': '8%',  # Adjusted to ensure visibility
+            'zIndex': 0,  # Ensure icons are on top
+            'width': '90%',  # Adjusted to fit within the screen
+            'height': '80vh',
+            'display': 'flex',
+            'flex-direction': 'row',
+            'align-items': 'center',
+            'justify-content': 'center',  # Center the icons horizontally
+        },
+        className="icon2",
+        id="icon-container"
+    )
+    return icon_container
 
 
 
+# %% Jumbotron
 jumbotron = html.Div(
     id='jumbotron',  
     children=dbc.Container(
@@ -1361,17 +1205,12 @@ jumbotron = html.Div(
     className="p-3 bg-body-secondary rounded-3"
 )
 
-
-
-
-
-
-
+icon_container = incon("Start", 0)
 # %%
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(
-            html.Div([header,jumbotron, controls, cyto2, cyto1, icons[0], icons[1], icons[2], icons[3], icons[4], icons[5], icons[6]],
+            html.Div([header,sub_header,jumbotron, controls, cyto1, icon_container],	
             style={
 
                     'flex-direction': 'row',
@@ -1395,10 +1234,6 @@ app.layout = dbc.Container([
 
 
 
-# %%
-
-
-
 
 
 @app.callback(
@@ -1406,15 +1241,14 @@ app.layout = dbc.Container([
         Output('cytoscape', 'layout'),
         Output('cytoscape', 'elements'),
         Output('cytoscape', 'stylesheet'),
-        Output('cytoscape2', 'stylesheet'),
-        Output('cytoscape2', 'elements'),
         Output('nodes_classes', 'data'),
         Output('Outy', 'children'),
         Output('Test', 'data'),
         Output('Outy2', 'children'),
-        Output('cytoscape2', 'style'),
         Output('cytoscape', 'style'),
-        Output('save', 'data')
+        Output('save', 'data'),
+        Output('icon-container', 'children')
+      
 
     ],
     [
@@ -1438,8 +1272,7 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
     stylesheet3 = []
     outy = t2
     outy2 = t1
-
-    positon=positon1
+    icon_container = incon("off", 0)
     positon_g1=positon3
 
     Test=[] if Test is None else Test
@@ -1457,31 +1290,26 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
         Test=[]
         nodes, edges, df, stylesheet3 = create_nodes_and_edges(csd)
         elements = nodes + edges
-        s2 = stylesheet_graphic
-        e2 = elements2
         nodes_classes = []
         layout = standart_layout
-        positon=positon1
         positon_g1=positon3
         save=[]
+        icon_container = incon("off", 0)
   
 
     elif button_clicked == "Start":
         node_id = 'T/I/R/A/J-00'
-        nodes, edges, stylesheet3 = process_nodes_and_edges(csd, node_id)
+        nodes, edges, stylesheet3 = process_nodes_and_edges(csd, node_id, "yes")
         number = node_id.split("-")[1]
         outy = logic(0)
         outy2 = logic2(0)
         layout = game_layout
-        positon=positon2
         positon_g1=positon4
         save=[]
         Test=[]
+        icon_container = incon("Start", 0)
 
-        
 
-
-        e2, s2 = create_nodes_and_edges_updates(number, node_labels, icon_base64)
         elements = nodes + edges
 
         nodes_classes = [{'id': node['data']['id'], 'class': node['classes']} for node in nodes if node['data']['id']!= node_id]
@@ -1492,6 +1320,7 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
 ###
     elif button_clicked == 'Yes' or button_clicked == 'Yes1':
 
+
  
         if not nodes_classes:
             node_id = 'T/I/R/A/J-00'
@@ -1500,11 +1329,12 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
            node_id = [node for node in nodes_classes if node['class'] == 'yes'][0]["id"]
            Test.append({'source':Test[-1]['target'],'target':node_id})
 
-        
+   
 
-
-        nodes, edges, stylesheet3 = process_nodes_and_edges(csd, node_id)
+        nodes, edges, stylesheet3 = process_nodes_and_edges(csd, node_id, "independend")
         elements = nodes + edges
+   
+
      
         
 
@@ -1513,19 +1343,18 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
         outy = logic(int(n))
         outy2 = logic2(int(n))
         layout = game_layout
-        positon=positon2
         positon_g1=positon4
+        cube=(int(str(number)[0]))
+        icon_container = incon("Start", cube)
      
 
-
-        e2, s2 = create_nodes_and_edges_updates(number, node_labels, icon_base64)
 
         
         nodes_classes = [{'id': node['data']['id'], 'class': node['classes']} for node in nodes if node['data']['id'] != node_id]
 
         id=[node['data']['id'].split("-")[0] for node in nodes if node['data']['id'] != node_id]
         if id!=[]:
-            save.extend([node for node in nodes if node['data']['id'].split("-")[0] != "0"])
+            save.extend([node for node in nodes if node['data']['id'].split("-")[0]])
         else:
             pass
 
@@ -1542,8 +1371,7 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
  ####   
 
     elif button_clicked == 'No' or button_clicked == 'No1':
-   
-      
+        
         if not nodes_classes:
             node_id = 'T/I/R/A/J-00'
             Test.append({'source':node_id,'target':node_id})
@@ -1552,25 +1380,25 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
            Test.append({'source':Test[-1]['target'],'target':node_id})
 
 
-
-        nodes, edges, stylesheet3 = process_nodes_and_edges(csd, node_id)
+        print(node_id)
+        nodes, edges, stylesheet3 = process_nodes_and_edges(csd, node_id, "no")
         elements = nodes + edges
         number = node_id.split("-")[1]
         n=number[0]
         outy = logic(int(n))
-        outy2 = logic2(int(n))
-      
+        outy2 = logic2(int(n))  
         layout = game_layout
         positon_g1=positon4
-        positon=positon2    
-        e2, s2 = create_nodes_and_edges_updates(number, node_labels, icon_base64)
+        cube=(int(str(number)[0]))
+        icon_container = incon("Start", cube)
+     
    
 
 
         nodes_classes = [{'id': node['data']['id'], 'class': node['classes']} for node in nodes if node['data']['id'] != node_id]
         id=[node['data']['id'].split("-")[0] for node in nodes if node['data']['id'] != node_id]
         if id!=[]:
-            save.extend([node for node in nodes if node['data']['id'].split("-")[0] != "0"])
+            save.extend([node for node in nodes if node['data']['id'].split("-")[0]])
         else:
             pass
 
@@ -1591,6 +1419,7 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
         
         node_id = nd['id']
 
+
         if not nodes_classes:
             node_id = 'T/I/R/A/J-00'
             Test.append({'source':node_id,'target':node_id})
@@ -1599,29 +1428,24 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
            Test.append({'source':Test[-1]['target'],'target':node_id})
 
 
-        nodes, edges, stylesheet3 = process_nodes_and_edges(csd, node_id)
+        nodes, edges, stylesheet3 = process_nodes_and_edges(csd, node_id, "independend")
         elements = nodes + edges
         
         number = node_id.split("-")[1]
         outy = logic(int(number[0]))
         outy2 = logic2(int(number[0]))
-        positon=positon2
         positon_g1=positon4
+        cube=(int(str(number)[0]))
+        icon_container = incon("Start", cube)
 
-        e2, s2 = create_nodes_and_edges_updates(number, node_labels, icon_base64)
 
         nodes_classes = [{'id': node['data']['id'], 'class': node['classes']} for node in nodes if node['data']['id'] != node_id]
         id=[node['data']['id'].split("-")[0] for node in nodes if node['data']['id'] != node_id]
         if id!=[]:
-            save.extend([node for node in nodes if node['data']['id'].split("-")[0] != "0"])
+            save.extend([node for node in nodes if node['data']['id'].split("-")[0]])
         else:
             pass
 
-
-     
-
-
-  
         layout = game_layout
        
    
@@ -1630,20 +1454,20 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
         tasty = [f"source-{item['source']}_target-{item['target']}" for item in Test]
         save=[]
         Test=[]
-        return rebuild_and_highlight_graph(csd, tasty,elements2, nodes_classes, background_images, node_labels)
+        icon_container = incon("off", 0)
+        return rebuild_and_highlight_graph(csd, tasty, nodes_classes, background_images, node_labels)
     
 
     else:
         nodes, edges,df, stylesheet3 = create_nodes_and_edges(csd)
         elements = nodes + edges
-        s2 = stylesheet_graphic
-        e2 = elements2
         layout = standart_layout
         positon_g1=positon3
-        positon=positon1
+
+
         
 
-    return layout,elements,stylesheet3, s2, e2, nodes_classes, outy, Test, outy2, positon, positon_g1, save
+    return layout,elements,stylesheet3,nodes_classes, outy, Test, outy2, positon_g1, save, icon_container
 
 
 
