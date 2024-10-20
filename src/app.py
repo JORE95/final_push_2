@@ -763,7 +763,7 @@ nodes, edges, df, stylesheet1 = create_nodes_and_edges(csd)
 
 
 t1="Welcome!"
-t2= "Please press start to begin matchmaking"
+t2= "To find the optimal therapeutic match for each patient press 'Start'"
 
 # %%
 def logic(n):
@@ -1020,7 +1020,7 @@ positon3 = {
     'overflow': 'visible',
     'width': '100%',
     'height': '80vh',
-    'top': '10vh',  # Use vh for vertical positioning
+    'top': '10vh',  
     'position': 'fixed',
     'zIndex': 2,
     'right': '0%',
@@ -1030,13 +1030,13 @@ positon3 = {
 }
 
 positon4 = {
-    'overflow': 'hidden',
+    'overflow': 'visible',
     'width': '100%',
     'height': '80vh',
-    'position': 'absolute',
-    'bottom': '50%',
-    'right': '50%',
-    'transform': 'translate(50%, 50%)',
+    'position': 'fixed',
+    'top': '50%',
+    'left': '50%',
+    'transform': 'translate(-50%, -50%)',
     'zIndex': 2
 }
 
@@ -1102,16 +1102,16 @@ def generate_icon_position(angle, i, setting, number):
 
     position = {
         'position': 'absolute',
-        'top': f'calc(50% + {y}px)' if setting != "Start" else f'calc(70% + {y}px)',  # Center vertically
-        'left': f'calc(50% + {x}px)' if setting == "Start" else f'calc(40% + {x}px)',  # Center horizontally
+        'top': f'calc(50% + {y}px)' if setting != "Start" else f'calc(80% + {y}px)',  # Center vertically
+        'left': f'calc(50% + {x}px)' if setting == "Start" else f'calc(50% + {x}px)',  # Center horizontally
         "background-image": f"url({background_images[i]})",
         "background-color": colors[i] if i == number else "rgba(255, 255, 255, 0.5)",
         "background-size": "contain",
         "background-position": "center",
         'border-style': 'solid' if i == number else 'dashed',
         'border-radius': '50%',
-        'width': f'{110 if i == number else 80}px',  
-        'height': f'{110 if i == number else 80}px',
+        'width': f'{90 if i == number else 70}px',  
+        'height': f'{90 if i == number else 70}px',
         'border-width': f'{3 if i == number else 1.5}px',
         'zIndex': 0, 
         'align-items': 'center',
@@ -1148,7 +1148,7 @@ def incon(Signal, level):
         style={
            'position': 'fixed',
             'left': '5%',  # Adjusted to ensure visibility
-            'top': '8%',  # Adjusted to ensure visibility
+            'top': '12%',  # Adjusted to ensure visibility
             'zIndex': 0,  # Ensure icons are on top
             'width': '90%',  # Adjusted to fit within the screen
             'height': '80vh',
