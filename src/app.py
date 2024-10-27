@@ -985,12 +985,13 @@ controls = html.Div(
         ),
     ],
     style={
-        'background-color': "f7f7f7",
+        'background-color': '#f7f7f7',
         'padding': '20px',
         'border-radius': '15px',
         'box-shadow': '0 6px 12px rgba(0, 0, 0, 0.1)',
         'margin-top': '20px',
         'margin-bottom': '20px',
+        "border": "1px solid #e0e0e0",
         'width': '100%',
     }
 )
@@ -1037,7 +1038,7 @@ positon3 = {
     'zIndex': 1,
     'margin-top': '20px',
     'margin-bottom': '20px',
-    'maxZoom': 0.25,
+    'maxZoom': 0.20,
     'minZoom': 0.01
 }
 
@@ -1107,66 +1108,67 @@ background_images = [f"https://api.iconify.design/{icon}.svg" for icon in icon_l
 
 node_labels = [
     "Heart failure?", "ASCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", 
-    "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "End"
+    "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "This is the end of the RA precision pathway"
 ]
 
+
 colors = [
-    "#5BC0BE",  # Teal
-    "#90BE6D",  # Light Green
-    "#F9C74F",  # Yellow
-    "#F94144",  # Red
-    "#577590",  # Dark Blue
-    "#F3722C",  # Orange
-    "#43AA8B",  # Green
+    "#FF0000",  # Red for Heart
+    "#8B008B",  # Dark Magenta for Virus
+    "#708090",  # Slate Gray for Cloud (Malignancy)
+    "#A0522D",  # Sienna for Colon
+    "#FFD700",  # Gold for Antibodies (Y shape)
+    "#87CEFA",  # Light Sky Blue for Syringe (Vaccination)
+    "#800000",  # Maroon for Blood Vessel
 ]
 
 def generate_icon_position(i, is_active):
     return {
-        "background-image": f"url({background_images[i]})",
-        "background-color": colors[i] if is_active else "#FFFFFF",
-        "background-size": "contain",
-        "background-position": "center",
-        'border-radius': '15px',  
-        'width': '50px',  
-        'height': '50px',
-        'border-width': '1px',
-        'border-style': 'solid',
-        'border-color': colors[i],
-        'display': 'flex',
         'align-items': 'center',
         'justify-content': 'center',
-        'margin-right': '15px',  
-        'transition': 'background-color 0.2s ease', 
+        'width': '60px',
+        'height': '60px',
+        'background-color': '#FFFFFF',
+        'border-radius': '60px',
+        'border': f'3px solid {colors[i]}' if is_active else '2px dashed #CCCCCC',
+        'background-image': f"url({background_images[i]})",
+        'background-size': '80%',
+        'background-repeat': 'no-repeat',
+        'background-position': 'center',
+        'box-shadow': '0 4px 10px rgba(0, 0, 0, 0.1)',
+        'transition': 'transform 0.3s ease',
+        'margin-right': '15px',
     }
 
 def generate_menu_item(i, is_active):
     return html.Div(
-        id=f'icon-item-{i}',  
-        n_clicks=0, 
+        id=f'icon-item-{i}',
+        n_clicks=0,
+        className='menu-item',
         style={
-            'display': 'flex', 
-            'align-items': 'center',  
-            'padding': '10px',  
+            'display': 'flex',
+            'align-items': 'center',
+            'padding': '10px',
             'cursor': 'pointer',
             'width': '100%',
             'margin-bottom': '10px',
-            'background-color': '#F0F4F8' if is_active else '#FFFFFF',  
+            'background-color': '#f7f7f7',
             'border-radius': '15px',
-            'border': f'1px solid {colors[i]}',  
-            'box-shadow': '0 4px 6px rgba(0, 0, 0, 0.1)',
-            'transition': 'background-color 0.2s ease, border 0.2s ease',  
-            'outline': 'none',  
+            'border': f'1px solid {colors[i]}' if is_active else '1px solid #EEEEEE',
+            'box-shadow': '0 2px 5px rgba(0, 0, 0, 0.05)',
+            'transition': 'background-color 0.3s ease, box-shadow 0.3s ease',
         },
         children=[
             html.Div(
                 style=generate_icon_position(i, is_active),
-                id=f'icon-{i}'
+                id=f'icon-{i}',
+                className='icon'
             ),
             html.P(
-                node_labels[i], 
+                node_labels[i],
                 style={
                     'font-size': '16px',
-                    'color': '#0B4F6C', 
+                    'color': '#0B4F6C',
                     'margin': '0',
                     'text-align': 'left',
                     'flex-grow': '1',
@@ -1177,15 +1179,12 @@ def generate_menu_item(i, is_active):
     )
 
 def incon(Signal, level):
-
-
     icons = [
-        generate_menu_item(i, is_active=(i == level)) for i in range(len(node_labels)-1)
+        generate_menu_item(i, is_active=(i == level)) for i in range(len(node_labels) - 1)
     ]
 
     icon_container = html.Div(
         icons,
-
         className="menu-container",
         id="icon-container"
     )
@@ -1193,7 +1192,7 @@ def incon(Signal, level):
 
 node_labels = [
     "Heart failure?", "ASCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", 
-    "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "End"
+    "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "This is the end of the RA precision pathway"
 ]
 
 
@@ -1253,17 +1252,15 @@ app.layout = dbc.Container([
                     controls
                 ],
                 style={
-                    'display': 'flex',
-                    'flex-direction': 'column',
-                    'height': 'auto',
-                    'overflow-y': 'auto',
+
+                    'height': '100vh',
+
                 }
             ),
             width=2,
             className="icon-column",
             style={
                 'padding': '10px',
-                'background-color': '#f8f9fa',
             }
         ),
 
@@ -1290,7 +1287,7 @@ app.layout = dbc.Container([
                         }
                     )
                 ),
-                # Third Row: Cytoscape Component
+
                 dbc.Row(
                     dbc.Col(
                         cyto1,
@@ -1300,7 +1297,7 @@ app.layout = dbc.Container([
                         }
                     )
                 ),
-                # Fourth Row: Jumbotron
+         
                 dbc.Row(
                     dbc.Col(
                         jumbotron,
@@ -1315,9 +1312,6 @@ app.layout = dbc.Container([
             style={
                 'overflow-y': 'auto',
                 'padding': '20px',
-                'background-color': '#ffffff',
-                'border-radius': '8px',
-                'box-shadow': '0px 4px 8px rgba(0, 0, 0, 0.1)',
             }
         ),
     ], style={
