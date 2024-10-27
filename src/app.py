@@ -985,7 +985,7 @@ controls = html.Div(
         ),
     ],
     style={
-        'background-color': '#F0F4F8',
+        'background-color': "f7f7f7",
         'padding': '20px',
         'border-radius': '15px',
         'box-shadow': '0 6px 12px rgba(0, 0, 0, 0.1)',
@@ -1107,7 +1107,7 @@ background_images = [f"https://api.iconify.design/{icon}.svg" for icon in icon_l
 
 node_labels = [
     "Heart failure?", "ASCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", 
-    "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?"
+    "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "End"
 ]
 
 colors = [
@@ -1152,7 +1152,7 @@ def generate_menu_item(i, is_active):
             'margin-bottom': '10px',
             'background-color': '#F0F4F8' if is_active else '#FFFFFF',  
             'border-radius': '15px',
-            'border': f'1px solid {colors[i]}',  # Border color matches the icon color
+            'border': f'1px solid {colors[i]}',  
             'box-shadow': '0 4px 6px rgba(0, 0, 0, 0.1)',
             'transition': 'background-color 0.2s ease, border 0.2s ease',  
             'outline': 'none',  
@@ -1166,7 +1166,7 @@ def generate_menu_item(i, is_active):
                 node_labels[i], 
                 style={
                     'font-size': '16px',
-                    'color': '#0B4F6C',  # Dark blue text for consistency
+                    'color': '#0B4F6C', 
                     'margin': '0',
                     'text-align': 'left',
                     'flex-grow': '1',
@@ -1177,10 +1177,10 @@ def generate_menu_item(i, is_active):
     )
 
 def incon(Signal, level):
-    assert len(background_images) == len(node_labels), "background_images and node_labels must be of the same length."
+
 
     icons = [
-        generate_menu_item(i, is_active=(i == level)) for i in range(len(node_labels))
+        generate_menu_item(i, is_active=(i == level)) for i in range(len(node_labels)-1)
     ]
 
     icon_container = html.Div(
@@ -1191,14 +1191,17 @@ def incon(Signal, level):
     )
     return icon_container
 
-
+node_labels = [
+    "Heart failure?", "ASCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", 
+    "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "End"
+]
 
 
 
 
 
 # %% Jumbotron
-# Updated Jumbotron Component aligned in the same column
+
 jumbotron = html.Div(
     id='jumbotron',
     children=dbc.Container(
@@ -1225,15 +1228,13 @@ jumbotron = html.Div(
         'width': '100%',
         'max-width': '800px',
 
-
         "position": "relative",
         'margin': '20px auto',  # Center the jumbotron horizontally
         'border': '1px solid #e0e0e0',
         'border-radius': '12px',
         'box-shadow': '0 6px 12px rgba(0, 0, 0, 0.15)',
-        'padding': '20px',
-        'background-color': '#f7f7f7',
-        "bottom":"10px"
+        'bottom': '50px',
+        'background-color': '#f7f7f7'
     },
     className="p-3 bg-body-secondary rounded-3"
 )
@@ -1244,7 +1245,7 @@ icon_container = incon("Start", 0)
 
 app.layout = dbc.Container([
     dbc.Row([
-        # Sidebar Column
+
         dbc.Col(
             html.Div(
                 [
@@ -1254,7 +1255,7 @@ app.layout = dbc.Container([
                 style={
                     'display': 'flex',
                     'flex-direction': 'column',
-                    'height': '100vh',
+                    'height': 'auto',
                     'overflow-y': 'auto',
                 }
             ),
@@ -1265,7 +1266,7 @@ app.layout = dbc.Container([
                 'background-color': '#f8f9fa',
             }
         ),
-        # Main Content Column
+
         dbc.Col(
             [
                 dbc.Row(
@@ -1278,7 +1279,7 @@ app.layout = dbc.Container([
                         }
                     )
                 ),
-                # Second Row: Sub-header (H2)
+
                 dbc.Row(
                     dbc.Col(
                         sub_header,
@@ -1332,7 +1333,7 @@ app.layout = dbc.Container([
             dcc.Store(id="position")
         ])
     ])
-], fluid=True, className='dashboard-container', style={'border-radius': '8px', 'overflow': 'hidden'})
+], fluid=True, className='dashboard-container', style={'border-radius': '20px'})
 
 
 
@@ -1421,21 +1422,20 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
        
 ###
     elif button_clicked == 'Yes' or button_clicked == 'Yes1':
-
-
- 
         if not nodes_classes:
             node_id = 'T/I/R/A/J-00'
-            Test.append({'source':node_id,'target':node_id})
+            Test.append({'source': node_id, 'target': node_id})
         else:
            node_id = [node for node in nodes_classes if node['class'] == 'yes'][0]["id"]
            Test.append({'source':Test[-1]['target'],'target':node_id})
 
-   
-
-        nodes, edges, stylesheet3 = process_nodes_and_edges(csd, node_id, "independend")
+        nodes, edges, stylesheet3 = process_nodes_and_edges(csd, node_id, "yes")
         elements = nodes + edges
-   
+
+     
+    
+
+    
 
      
         
@@ -1467,7 +1467,8 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
                  elements= [[sa for sa in save ][-1]]
 
         else:
-             elements= [[sa for sa in save ][-1]]
+            nodes, edges, stylesheet3 = process_nodes_and_edges(csd, nodes[0]["data"]["id"], "yes")
+            elements = nodes + edges
 
    
  ####   
@@ -1479,11 +1480,17 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
             Test.append({'source':node_id,'target':node_id})
         else:
            node_id = [node for node in nodes_classes if node['class'] == 'no'][0]["id"]
+
            Test.append({'source':Test[-1]['target'],'target':node_id})
 
 
-        print(node_id)
+         
         nodes, edges, stylesheet3 = process_nodes_and_edges(csd, node_id, "no")
+
+
+
+
+
         elements = nodes + edges
         number = node_id.split("-")[1]
         n=number[0]
@@ -1492,6 +1499,7 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
         layout = game_layout
         cube=(int(str(number)[0]))
         icon_container = incon("Start", cube)
+ 
      
    
 
@@ -1510,7 +1518,8 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
                  elements= [[sa for sa in save ][-1]]
 
         else:
-             elements= [[sa for sa in save ][-1]]
+            nodes, edges, stylesheet3 = process_nodes_and_edges(csd, nodes[0]["data"]["id"], "yes")
+            elements = nodes + edges
 
 
 
