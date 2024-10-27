@@ -814,167 +814,189 @@ h_=50
 
 qq=h_-20
 s=50
-controls = dbc.Card(
-    [
 
+controls = html.Div(
+    [
         html.Div(
             [
+                # Start Button
                 html.Div(
                     [
                         dbc.Button(
-                            [  
-                                html.I(className="fas fa-play-circle", style={'font-size': qq})  
-                            ],
-                            id="Start", color="primary", className="btn-lg",
+                            html.I(className="fas fa-play-circle", style={'font-size': '32px'}),
+                            id="Start",
+                            color="primary",
                             style={
-                                'width': w_,  
-                                'height': h_,
-                                'border-radius': '50%',  
-                                'background-color': '#5A9BD4',  
+                                'width': '70px',
+                                'height': '70px',
+                                'border-radius': '15px',
+                                'background': 'linear-gradient(135deg, #5BC0BE, #0B4F6C)',  # Teal to dark blue
                                 'color': 'white',
-                                'border': '3px solid #3A6FA4',  # Stronger border in darker tone
-                                'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
-                                'transition': 'background-color 0.2s ease-in-out',
-                                'display': 'flex',
-                                'align-items': 'center',  # Center icon vertically
-                                'justify-content': 'center',  # Center icon horizontally
-                                'margin-bottom': '10px',  # Spacing between button and label
-                            }
-                        ),
-                        html.P("Start", style={'text-align': 'center'})  
-                    ],
-                    style={'display': 'inline-block', 'text-align': 'center', 'margin': '10px'}
-                ),
-                html.Div(
-                    [
-                        dbc.Button(
-                            [  # Icon only, no text
-                                html.I(className="fas fa-sync", style={'font-size': qq})  
-                            ],
-                            id="Reset", color="secondary", className="btn-lg",
-                            style={
-                                'width': w_,  # Circular button
-                                'height': h_,
-                                'border-radius': '50%',  # Perfect circle
-                                'background-color': '#E57373',  # Warm coral background
-                                'color': 'white',
-                                'border': '3px solid #B64B4B',  # Stronger border in darker tone
-                                'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
-                                'transition': 'background-color 0.2s ease-in-out',
+                                'border': '1px solid #0B4F6C',
+                                'box-shadow': '0 4px 6px rgba(0, 0, 0, 0.1)',
                                 'display': 'flex',
                                 'align-items': 'center',
                                 'justify-content': 'center',
-                                'margin-bottom': '10px',
-                            }
+                                'transition': 'transform 0.2s, box-shadow 0.2s',
+                            },
+                            n_clicks=0
                         ),
-                        html.P("Reset", style={'text-align': 'center'})
+                        html.P("Start", style={
+                            'text-align': 'center',
+                            'margin-top': '8px',
+                            'color': '#0B4F6C',
+                            'font-weight': 'bold'
+                        })
                     ],
-                    style={'display': 'inline-block', 'text-align': 'center', 'margin': '10px'}
+                    style={'text-align': 'center', 'margin': '10px'}
                 ),
+                # Reset Button
                 html.Div(
                     [
                         dbc.Button(
-                            [  # Icon only, no text
-                                html.I(className="fas fa-check-circle", style={'font-size': qq})  # Font Awesome Check Circle Icon
-                            ],
-                            id="Yes", color="success", className="btn-lg",
+                            html.I(className="fas fa-sync-alt", style={'font-size': '32px'}),
+                            id="Reset",
+                            color="secondary",
                             style={
-                                'width': w_,  # Circular button
-                                'height': h_,
-                                'border-radius': '50%',  # Perfect circle
-                                'background-color': '#66BB6A',  # Soft green background
+                                'width': '70px',
+                                'height': '70px',
+                                'border-radius': '15px',
+                                'background': 'linear-gradient(135deg, #A9BCD0, #6C7A89)',  # Light to medium gray
                                 'color': 'white',
-                                'border': '3px solid #4A8B4A',
-                                'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                'border': '1px solid #6C7A89',
+                                'box-shadow': '0 4px 6px rgba(0, 0, 0, 0.1)',
                                 'display': 'flex',
                                 'align-items': 'center',
                                 'justify-content': 'center',
-                                'margin-bottom': '10px',
-                                'transition': 'background-color 0.2s ease-in-out',
-                            }
+                                'transition': 'transform 0.2s, box-shadow 0.2s',
+                            },
+                            n_clicks=0
                         ),
-                        html.P("Yes", style={'text-align': 'center'})
+                        html.P("Reset", style={
+                            'text-align': 'center',
+                            'margin-top': '8px',
+                            'color': '#6C7A89',
+                            'font-weight': 'bold'
+                        })
                     ],
-                    style={'display': 'inline-block', 'text-align': 'center', 'margin': '10px'}
+                    style={'text-align': 'center', 'margin': '10px'}
                 ),
+                # Yes Button
                 html.Div(
                     [
                         dbc.Button(
-                            [  # Icon only, no text
-                                html.I(className="fas fa-times-circle", style={'font-size': qq})  # Font Awesome Times Circle Icon
-                            ],
-                            id="No", color="danger", className="btn-lg",
+                            html.I(className="fas fa-check-circle", style={'font-size': '32px'}),
+                            id="Yes",
+                            color="success",
                             style={
-                                'width': w_,  # Circular button
-                                'height': h_,
-                                'border-radius': '50%',  # Perfect circle
-                                'background-color': '#EF5350',  # Soft red background
+                                'width': '70px',
+                                'height': '70px',
+                                'border-radius': '15px',
+                                'background': 'linear-gradient(135deg, #90BE6D, #43AA8B)',  # Light to medium green
                                 'color': 'white',
-                                'border': '3px solid #C62828',  # Stronger border in darker tone
-                                'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                'border': '1px solid #43AA8B',
+                                'box-shadow': '0 4px 6px rgba(0, 0, 0, 0.1)',
                                 'display': 'flex',
                                 'align-items': 'center',
                                 'justify-content': 'center',
-                                'margin-bottom': '10px',
-                                'transition': 'background-color 0.2s ease-in-out',
-                            }
+                                'transition': 'transform 0.2s, box-shadow 0.2s',
+                            },
+                            n_clicks=0
                         ),
-                        html.P("No", style={'text-align': 'center'})
+                        html.P("Yes", style={
+                            'text-align': 'center',
+                            'margin-top': '8px',
+                            'color': '#43AA8B',
+                            'font-weight': 'bold'
+                        })
                     ],
-                    style={'display': 'inline-block', 'text-align': 'center', 'margin': '10px'}
+                    style={'text-align': 'center', 'margin': '10px'}
                 ),
+                # No Button
                 html.Div(
                     [
                         dbc.Button(
-                            [  # Icon only, no text
-                                html.I(className="fas fa-stop-circle", style={'font-size': qq})  # Font Awesome Stop Circle Icon
-                            ],
-                            id="End", color="primary",
+                            html.I(className="fas fa-times-circle", style={'font-size': '32px'}),
+                            id="No",
+                            color="danger",
                             style={
-                                'width': w_,  # Circular button
-                                'height': h_,
-                                'border-radius': '50%',  # Perfect circle
-                                'background-color': '#7986CB',  # Muted slate blue background
+                                'width': '70px',
+                                'height': '70px',
+                                'border-radius': '15px',
+                                'background': 'linear-gradient(135deg, #F94144, #9B2226)',  # Light to dark red
                                 'color': 'white',
-                                'border': '3px solid #4D5BAA',  # Stronger border in darker tone
-                                'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                'border': '1px solid #9B2226',
+                                'box-shadow': '0 4px 6px rgba(0, 0, 0, 0.1)',
                                 'display': 'flex',
                                 'align-items': 'center',
                                 'justify-content': 'center',
-                                'transition': 'background-color 0.2s ease-in-out',
-                                'margin-bottom': '10px',
-                            }
+                                'transition': 'transform 0.2s, box-shadow 0.2s',
+                            },
+                            n_clicks=0
                         ),
-                        html.P("End", style={'text-align': 'center'})
+                        html.P("No", style={
+                            'text-align': 'center',
+                            'margin-top': '8px',
+                            'color': '#9B2226',
+                            'font-weight': 'bold'
+                        })
                     ],
-                    style={'display': 'inline-block', 'text-align': 'center', 'margin': '10px'}
+                    style={'text-align': 'center', 'margin': '10px'}
+                ),
+                # End Button
+                html.Div(
+                    [
+                        dbc.Button(
+                            html.I(className="fas fa-stop-circle", style={'font-size': '32px'}),
+                            id="End",
+                            color="dark",
+                            style={
+                                'width': '70px',
+                                'height': '70px',
+                                'border-radius': '15px',
+                                'background': 'linear-gradient(135deg, #577590, #0B4F6C)',  # Medium to dark blue
+                                'color': 'white',
+                                'border': '1px solid #0B4F6C',
+                                'box-shadow': '0 4px 6px rgba(0, 0, 0, 0.1)',
+                                'display': 'flex',
+                                'align-items': 'center',
+                                'justify-content': 'center',
+                                'transition': 'transform 0.2s, box-shadow 0.2s',
+                            },
+                            n_clicks=0
+                        ),
+                        html.P("End", style={
+                            'text-align': 'center',
+                            'margin-top': '8px',
+                            'color': '#0B4F6C',
+                            'font-weight': 'bold'
+                        })
+                    ],
+                    style={'text-align': 'center', 'margin': '10px'}
                 ),
             ],
             style={
-                'text-align': 'center',
                 'display': 'flex',
-                'flex-direction': 'column',
-                'align-items': 'center',  # Center the entire set of buttons
-                'justify-content': 'center',  # Center vertically
+                'flex-direction': 'row',
+                'justify-content': 'center',
+                'align-items': 'center',
+                'flex-wrap': 'wrap',
             }
         ),
     ],
     style={
+        'background-color': '#F0F4F8',
         'padding': '20px',
-        'border-radius': '40px',  # Rounded for pill shape
-        'background-color': 'rgba(255, 255, 255, 0.2)',  # Semi-transparent white background
-        'backdrop-filter': 'blur(10px)',  # Frosted glass effect
-        'box-shadow': '0 6px 12px rgba(0, 0, 0, 0.3)',  # Stronger shadow for glassy effect
-        'width': '80px',  # Adjust width to fit the circular buttons with labels
-        'position': 'absolute',
-        'top': '200px',
-        'right': '20px',
-        'zIndex': 3,
-        'text-align': 'center',
-        'color': '#000',  # Text color for contrast
-        'font-family': '"San Francisco", "Segoe UI", sans-serif',  # Apple-like font family
+        'border-radius': '15px',
+        'box-shadow': '0 6px 12px rgba(0, 0, 0, 0.1)',
+        'margin-top': '20px',
+        'margin-bottom': '20px',
+        'width': '100%',
     }
 )
+
+
+
 
 
 reset=html.Div([dbc.Button("Reset", id="Reset", color="primary",  style={'margin': 10, 'width': '150px'})])
@@ -987,17 +1009,15 @@ header = html.H1(
     "The RA Precision Pathway", 
     style={
         'textAlign': 'center', 
+        'width': '100%',
         'color': 'black', 
         'font-size': '50px', 
-        'font-weight': '300',  
-        'position': 'absolute',  
-        'top': '10px',  
-        'left': '50%', 
-        'transform': 'translateX(-50%)', 
-        'zIndex': 10 
+        'font-weight': '300',
+        'margin-top': '10px',  # Added margin for spacing
     }
 )
 
+# Updated Sub-Header Component
 sub_header = html.H2(
     "Find the optimal therapeutic match for each patient", 
     style={
@@ -1005,44 +1025,23 @@ sub_header = html.H2(
         'color': 'black',
         'width': '100%',
         'font-size': '20px',
-        'font-weight': '200',  
-        'position': 'absolute',  
-        'top': '70px',  
-        'left': '50%', 
-        'transform': 'translateX(-50%)', 
-        'zIndex': 10 
+        'font-weight': '200',
+        'margin-top': '5px',  # Added margin for spacing
     }
 )
 
-
-
+# Updated Style for cyto1
 positon3 = {
-    'overflow': 'visible',
     'width': '100%',
-    'height': '80vh',
-    'top': '10vh',  
-    'position': 'fixed',
-    'zIndex': 2,
-    'right': '0%',
-    'display': 'flex',
-    'margin': 'auto',
-    'left': '0%'
+    'height': '60vh',
+    'zIndex': 1,
+    'margin-top': '20px',
+    'margin-bottom': '20px',
+    'maxZoom': 0.25,
+    'minZoom': 0.01
 }
 
-positon4 = {
-    'overflow': 'visible',
-    'width': '100%',
-    'height': '80vh',
-    'position': 'fixed',
-    'top': '50%',
-    'left': '50%',
-    'transform': 'translate(-50%, -50%)',
-    'zIndex': 2
-}
-
-
-
-
+# Cytoscape Component
 cyto1 = cyto.Cytoscape(
     id='cytoscape',
     elements=nodes + edges,
@@ -1050,123 +1049,13 @@ cyto1 = cyto.Cytoscape(
     layout=standart_layout,
     maxZoom=0.4,
     minZoom=0.01,
-    stylesheet=stylesheet1	
-   
-    )
+    stylesheet=stylesheet1
+)
 
 
 
-
-
-# %% Graph 2
-icon_list=["healthicons:heart-organ-outline", "healthicons:virus-alt-outline", "wi:cloud", "healthicons:colon-outline", "healthicons:y-outline", "healthicons:syringe-outline", "healthicons:blood-vessel-outline"]
-
-background_images = [f"https://api.iconify.design/{icon}.svg" for icon in icon_list]
-
-node_labels = [
-    "Heart failure?", "ASCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", 
-    "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?", "This is the end of the RA precision pathway"
-]
-
-angles = [30, 45, 60, 75, 90, 105, 120]
-
-
-colors = [
-    "rgba(214, 39, 40, 0.5)",  # Heart failure? (Red)
-    "rgba(44, 160, 44, 0.5)",  # SCVD, VTE, HZ? (Green)
-    "rgba(255, 215, 0, 0.5)",  # Malignancy? (Yellow)
-    "rgba(148, 103, 189, 0.5)",  # Diverticulitis? (Purple)
-    "rgba(31, 119, 180, 0.5)",  # Autoantibodies, DMD? (Blue)
-    "rgba(128, 128, 128, 0.5)",  # HG, vaccination? (Gray)
-    "rgba(140, 86, 75, 0.5)",  # RA-ILD? (Brown)
-    "rgba(31, 119, 180, 0.5)"   # End of story (Blue)
-]
-
-def generate_icon_position(angle, i, setting, number):
-    if setting == "Start":
-        radius = 300
-        horizontal_stretch = 2
-        vertical_stretch = 2.1
-        rotation = 195
-    else:
-        radius = 400
-        horizontal_stretch = 2.0
-        vertical_stretch = 1.2
-        rotation = 110
-        number = -1
-
-    rotated_angle = angle + rotation
-
-    x = radius * horizontal_stretch * math.cos(math.radians(rotated_angle))
-    y = radius * vertical_stretch * math.sin(math.radians(rotated_angle))
-
-    position = {
-        'position': 'absolute',
-        'top': f'calc(50% + {y}px)' if setting != "Start" else f'calc(80% + {y}px)',  # Center vertically
-        'left': f'calc(50% + {x}px)' if setting == "Start" else f'calc(50% + {x}px)',  # Center horizontally
-        "background-image": f"url({background_images[i]})",
-        "background-color": colors[i] if i == number else "rgba(255, 255, 255, 0.5)",
-        "background-size": "contain",
-        "background-position": "center",
-        'border-style': 'solid' if i == number else 'dashed',
-        'border-radius': '50%',
-        'width': f'{90 if i == number else 70}px',  
-        'height': f'{90 if i == number else 70}px',
-        'border-width': f'{3 if i == number else 1.5}px',
-        'zIndex': 0, 
-        'align-items': 'center',
-        'justify-content': 'center',
-        'font-size': f'{20 if i == number else 12}px',
-        'transform': 'translate(-50%, -50%)'  # Center the icon
-    }
-
-    return position
-
-def incon(Signal, level):
-    icons = [
-        html.Div(
-            style=generate_icon_position(angles[i], i, Signal, level),     
-            id=f'icon-{i}', 
-            children=[
-                html.P(node_labels[i], style={
-                    'text-align': 'center', 
-                    'color': 'black', 
-                    'font-size': f'{20 if i == level else 12}px',
-                    'position': 'absolute',
-                    'top': '100%',  
-                    'width': '100%',  
-                    'left': '50%',
-                    'transform': 'translateX(-50%)',  
-                    'margin-top': '2px'  
-                })
-            ]
-        ) for i in range(len(angles))
-    ]
-
-    icon_container = html.Div(
-        icons,
-        style={
-           'position': 'fixed',
-            'left': '5%',  # Adjusted to ensure visibility
-            'top': '12%',  # Adjusted to ensure visibility
-            'zIndex': 0,  # Ensure icons are on top
-            'width': '90%',  # Adjusted to fit within the screen
-            'height': '80vh',
-            'display': 'flex',
-            'flex-direction': 'row',
-            'align-items': 'center',
-            'justify-content': 'center',  # Center the icons horizontally
-        },
-        className="icon2",
-        id="icon-container"
-    )
-    return icon_container
-
-
-
-# %% Jumbotron
 jumbotron = html.Div(
-    id='jumbotron',  
+    id='jumbotron',
     children=dbc.Container(
         [
             html.H1(text_output2, className="display-3"),
@@ -1175,7 +1064,6 @@ jumbotron = html.Div(
                 text_output,
                 className="lead",
             ),
- 
             html.Div(
                 [
                     dbc.Button("Learn more", color="primary", className="mx-2 d-inline-block"),
@@ -1189,48 +1077,263 @@ jumbotron = html.Div(
         className="py-3"
     ),
     style={
-        'position': 'absolute',
-        'bottom': '10px',  
-        'left': '50%',  
-        'transform': 'translateX(-50%)',  
-        'zIndex': 3,
-        'width': '800px',
+        # Removed "position": "absolute" to keep the jumbotron in the normal flow
+        'width': '100%',
+        'max-width': '800px',
+        'margin': '20px auto',  # Centers the jumbotron and adds vertical spacing
+        'border': '1px solid #e0e0e0',
+        'border-radius': '12px',
+        'box-shadow': '0 6px 12px rgba(0, 0, 0, 0.15)',
+        'padding': '40px',
+        'background-color': '#f7f7f7',
+    },
+    className="p-3 bg-body-secondary rounded-3"
+)
+
+
+
+
+
+
+
+# %% Graph 2
+icon_list = [
+    "healthicons:heart-organ-outline", "healthicons:virus-alt-outline", "wi:cloud", 
+    "healthicons:colon-outline", "healthicons:y-outline", "healthicons:syringe-outline", 
+    "healthicons:blood-vessel-outline"
+]
+
+background_images = [f"https://api.iconify.design/{icon}.svg" for icon in icon_list]
+
+node_labels = [
+    "Heart failure?", "ASCVD, VTE, HZ?", "Malignancy?", "Diverticulitis?", 
+    "Autoantibodies, DMD?", "HG, vaccination?", "RA-ILD?"
+]
+
+colors = [
+    "#5BC0BE",  # Teal
+    "#90BE6D",  # Light Green
+    "#F9C74F",  # Yellow
+    "#F94144",  # Red
+    "#577590",  # Dark Blue
+    "#F3722C",  # Orange
+    "#43AA8B",  # Green
+]
+
+def generate_icon_position(i, is_active):
+    return {
+        "background-image": f"url({background_images[i]})",
+        "background-color": colors[i] if is_active else "#FFFFFF",
+        "background-size": "contain",
+        "background-position": "center",
+        'border-radius': '15px',  
+        'width': '50px',  
+        'height': '50px',
+        'border-width': '1px',
+        'border-style': 'solid',
+        'border-color': colors[i],
+        'display': 'flex',
+        'align-items': 'center',
+        'justify-content': 'center',
+        'margin-right': '15px',  
+        'transition': 'background-color 0.2s ease', 
+    }
+
+def generate_menu_item(i, is_active):
+    return html.Div(
+        id=f'icon-item-{i}',  
+        n_clicks=0, 
+        style={
+            'display': 'flex', 
+            'align-items': 'center',  
+            'padding': '10px',  
+            'cursor': 'pointer',
+            'width': '100%',
+            'margin-bottom': '10px',
+            'background-color': '#F0F4F8' if is_active else '#FFFFFF',  
+            'border-radius': '15px',
+            'border': f'1px solid {colors[i]}',  # Border color matches the icon color
+            'box-shadow': '0 4px 6px rgba(0, 0, 0, 0.1)',
+            'transition': 'background-color 0.2s ease, border 0.2s ease',  
+            'outline': 'none',  
+        },
+        children=[
+            html.Div(
+                style=generate_icon_position(i, is_active),
+                id=f'icon-{i}'
+            ),
+            html.P(
+                node_labels[i], 
+                style={
+                    'font-size': '16px',
+                    'color': '#0B4F6C',  # Dark blue text for consistency
+                    'margin': '0',
+                    'text-align': 'left',
+                    'flex-grow': '1',
+                    'font-weight': 'bold',
+                }
+            )
+        ]
+    )
+
+def incon(Signal, level):
+    assert len(background_images) == len(node_labels), "background_images and node_labels must be of the same length."
+
+    icons = [
+        generate_menu_item(i, is_active=(i == level)) for i in range(len(node_labels))
+    ]
+
+    icon_container = html.Div(
+        icons,
+
+        className="menu-container",
+        id="icon-container"
+    )
+    return icon_container
+
+
+
+
+
+
+
+# %% Jumbotron
+# Updated Jumbotron Component aligned in the same column
+jumbotron = html.Div(
+    id='jumbotron',
+    children=dbc.Container(
+        [
+            html.H1(text_output2, className="display-3"),
+            html.Hr(className="my-2"),
+            html.P(
+                text_output,
+                className="lead",
+            ),
+            html.Div(
+                [
+                    dbc.Button("Learn more", color="primary", className="mx-2 d-inline-block"),
+                    dbc.Button("Yes", id="Yes1", color="success", className="mx-2 d-inline-block"),
+                    dbc.Button("No", id="No1", color="danger", className="mx-2 d-inline-block"),
+                ],
+                style={'text-align': 'left'}
+            ),
+        ],
+        fluid=True,
+        className="py-3"
+    ),
+    style={
+        'width': '100%',
+        'max-width': '800px',
+
+
+        "position": "relative",
+        'margin': '20px auto',  # Center the jumbotron horizontally
         'border': '1px solid #e0e0e0',
         'border-radius': '12px',
         'box-shadow': '0 6px 12px rgba(0, 0, 0, 0.15)',
         'padding': '20px',
         'background-color': '#f7f7f7',
-        'zIndex': 4,
+        "bottom":"10px"
     },
     className="p-3 bg-body-secondary rounded-3"
 )
 
+
 icon_container = incon("Start", 0)
 # %%
+
 app.layout = dbc.Container([
     dbc.Row([
+        # Sidebar Column
         dbc.Col(
-            html.Div([header,sub_header,jumbotron, controls, cyto1, icon_container],	
+            html.Div(
+                [
+                    icon_container,
+                    controls
+                ],
+                style={
+                    'display': 'flex',
+                    'flex-direction': 'column',
+                    'height': '100vh',
+                    'overflow-y': 'auto',
+                }
+            ),
+            width=2,
+            className="icon-column",
             style={
-
-                    'flex-direction': 'row',
-                    'display': 'flex' 
-
-                }),
-            width=12
-        )
-    ]),
+                'padding': '10px',
+                'background-color': '#f8f9fa',
+            }
+        ),
+        # Main Content Column
+        dbc.Col(
+            [
+                dbc.Row(
+                    dbc.Col(
+                        header,
+                        width=12,
+                        style={
+                            'textAlign': 'center',
+                            'margin-bottom': '10px',
+                        }
+                    )
+                ),
+                # Second Row: Sub-header (H2)
+                dbc.Row(
+                    dbc.Col(
+                        sub_header,
+                        width=12,
+                        style={
+                            'textAlign': 'center',
+                            'margin-bottom': '10px',
+                        }
+                    )
+                ),
+                # Third Row: Cytoscape Component
+                dbc.Row(
+                    dbc.Col(
+                        cyto1,
+                        width=12,
+                        style={
+                            'margin-bottom': '10px',
+                        }
+                    )
+                ),
+                # Fourth Row: Jumbotron
+                dbc.Row(
+                    dbc.Col(
+                        jumbotron,
+                        width=12,
+                        style={
+                            'margin-bottom': '10px',
+                        }
+                    )
+                ),
+            ],
+            width=10,
+            style={
+                'overflow-y': 'auto',
+                'padding': '20px',
+                'background-color': '#ffffff',
+                'border-radius': '8px',
+                'box-shadow': '0px 4px 8px rgba(0, 0, 0, 0.1)',
+            }
+        ),
+    ], style={
+        'height': '100vh',
+        'margin': '0',
+    }),
+    # Second Row: Hidden Stores for Data
     dbc.Row([
         dbc.Col([
             dcc.Store(id='nodes_classes'),
             dcc.Store(id='Test'),
             dcc.Store(id='save'),
             dcc.Store(id="position")
-
-
         ])
     ])
-], fluid=True, className='dashboard-container')
+], fluid=True, className='dashboard-container', style={'border-radius': '8px', 'overflow': 'hidden'})
+
 
 
 
@@ -1304,7 +1407,6 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
         outy = logic(0)
         outy2 = logic2(0)
         layout = game_layout
-        positon_g1=positon4
         save=[]
         Test=[]
         icon_container = incon("Start", 0)
@@ -1343,7 +1445,7 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
         outy = logic(int(n))
         outy2 = logic2(int(n))
         layout = game_layout
-        positon_g1=positon4
+  
         cube=(int(str(number)[0]))
         icon_container = incon("Start", cube)
      
@@ -1388,7 +1490,6 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
         outy = logic(int(n))
         outy2 = logic2(int(n))  
         layout = game_layout
-        positon_g1=positon4
         cube=(int(str(number)[0]))
         icon_container = incon("Start", cube)
      
@@ -1434,7 +1535,6 @@ def update_branch(reset_clicks, start_clicks, nd, yes, no, end,yes1, no1, nodes_
         number = node_id.split("-")[1]
         outy = logic(int(number[0]))
         outy2 = logic2(int(number[0]))
-        positon_g1=positon4
         cube=(int(str(number)[0]))
         icon_container = incon("Start", cube)
 
